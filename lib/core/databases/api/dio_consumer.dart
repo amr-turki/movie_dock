@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:movie_dock_application/core/databases/api/api_consumer.dart';
 import 'package:movie_dock_application/core/databases/api/end_points.dart';
@@ -7,7 +8,13 @@ class DioConsumer extends ApiConsumer {
   final Dio dio;
 
   DioConsumer({required this.dio}) {
-    dio.options.baseUrl = EndPoints.baserUrl;
+    dio.options.baseUrl = EndPoints.baseUrl;
+    dio.options.headers = {
+      'Authorization': 'Bearer ${EndPoints.token}',
+      'accept': 'application/json',
+    };
+
+    dio.options.queryParameters = {'language': 'en-US'};
   }
 
   //!POST

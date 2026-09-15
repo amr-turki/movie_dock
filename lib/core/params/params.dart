@@ -1,14 +1,4 @@
 class CelebritiesParams {
-  final String id;
-  CelebritiesParams({required this.id});
-}
-
-class UserParams {
-  final String id;
-  UserParams({required this.id});
-}
-
-class PostParams {
-  final String id;
-  PostParams({required this.id});
+  final int page;
+  CelebritiesParams({required this.page});
 }

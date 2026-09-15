@@ -7,8 +7,13 @@ class CelebritiesRemoteDataSource {
   final ApiConsumer api;
 
   CelebritiesRemoteDataSource({required this.api});
-  Future<CelebritiesModel> getCelebrities(CelebritiesParams params) async {
-    final response = await api.get("${EndPoints.celebrities}/${params.id}");
+  Future<CelebritiesModel> getPopularCelebrities(
+    CelebritiesParams params,
+  ) async {
+    final response = await api.get(
+      EndPoints.popularCelebrities,
+      queryParameters: {ApiKey.page: params.page},
+    );
     return CelebritiesModel.fromJson(response);
   }
 }
