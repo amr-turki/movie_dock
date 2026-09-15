@@ -1,9 +1,7 @@
-import 'package:movie_dock_application/features/template/domain/entities/celebrities_entitiy.dart';
-
 import '../../../../core/databases/api/api_consumer.dart';
 import '../../../../core/databases/api/end_points.dart';
 import '../../../../core/params/params.dart';
-import '../models/celebrities_model.dart';
+import '../models/popular_celebrities_model.dart';
 
 class CelebritiesRemoteDataSource {
   final ApiConsumer api;
