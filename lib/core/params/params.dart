@@ -1,6 +1,6 @@
-class TemplateParams {
+class CelebritiesParams {
   final String id;
-  TemplateParams({required this.id});
+  CelebritiesParams({required this.id});
 }
 
 class UserParams {

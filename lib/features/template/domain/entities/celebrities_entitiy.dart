@@ -1,0 +1,3 @@
+class CelebritiesEntity {
+  CelebritiesEntity();
+}

@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:happytech_clean_architecture/core/errors/error_model.dart';
+import 'package:movie_dock_application/core/errors/error_model.dart';
 
 //!ServerException
 class ServerException implements Exception {
   final ErrorModel errorModel;
   ServerException(this.errorModel);
 }
+
 //!CacheExeption
 class CacheExeption implements Exception {
   final String errorMessage;
@@ -97,15 +98,22 @@ handleDioException(DioException e) {
         case 504: // Bad request
 
           throw BadResponseException(
-              ErrorModel(status: 504, errorMessage: e.response!.data));
+            ErrorModel(statusCode: 504, statusMessage: e.response!.data),
+          );
       }
 
     case DioExceptionType.cancel:
       throw CancelException(
-          ErrorModel(errorMessage: e.toString(), status: 500));
+        ErrorModel(statusMessage: e.toString(), statusCode: 500),
+      );
 
     case DioExceptionType.unknown:
       throw UnknownException(
-          ErrorModel(errorMessage: e.toString(), status: 500));
+        ErrorModel(statusMessage: e.toString(), statusCode: 500),
+      );
+    default:
+      throw UnknownException(
+        ErrorModel(statusMessage: e.toString(), statusCode: 500),
+      );
   }
 }
