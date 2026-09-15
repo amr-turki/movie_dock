@@ -5,14 +5,14 @@ import '../../../../core/params/params.dart';
 import '../entities/celebrities_entitiy.dart';
 import '../repositories/celebrities_repository.dart';
 
-class GetCelebrities {
+class GetPopularCelebritiesUseCase {
   final CelebritiesRepository repository;
 
-  GetCelebrities({required this.repository});
+  GetPopularCelebritiesUseCase({required this.repository});
 
-  Future<Either<Failure, CelebritiesEntity>> call({
+  Future<Either<Failure, List<CelebritiesEntity>>> call({
     required CelebritiesParams params,
   }) {
-    return repository.getCelebrities(params: params);
+    return repository.getPopularCelebrities(params: params);
   }
 }

@@ -5,7 +5,7 @@ import '../../../../core/params/params.dart';
 import '../entities/celebrities_entitiy.dart';
 
 abstract class CelebritiesRepository {
-  Future<Either<Failure, CelebritiesEntity>> getCelebrities({
+  Future<Either<Failure, List<CelebritiesEntity>>> getPopularCelebrities({
     required CelebritiesParams params,
   });
 }
