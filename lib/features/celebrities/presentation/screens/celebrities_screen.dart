@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_dock_application/core/widgets/custom_tab_bar.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/widgets/custom_bottom_navigation_bar.dart';
 
 class CelebritiesScreen extends StatelessWidget {
   const CelebritiesScreen({super.key});
@@ -25,6 +26,10 @@ class CelebritiesScreen extends StatelessWidget {
             CustomTabBar(),
           ],
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 66.0, right: 63, left: 63),
+        child: CustomBottomNavigationBar(),
       ),
     );
   }
