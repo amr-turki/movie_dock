@@ -12,7 +12,7 @@ import 'package:movie_dock_application/features/celebrities/presentation/cubit/p
 class PopularCelebritiesCubit extends Cubit<PopularCelebritiesState> {
   PopularCelebritiesCubit() : super(PopularCelebritiesInitial());
 
-  eitherFailureOrPopularCelebritiesInitial(int id) async {
+  eitherFailureOrPopularCelebritiesInitial({required int page}) async {
     emit(PopularCelebritiesLoading());
     final PopularCelebritiesInitial = await GetPopularCelebritiesUseCase(
       repository: CelebritiesRepositoryImpl(
@@ -21,7 +21,7 @@ class PopularCelebritiesCubit extends Cubit<PopularCelebritiesState> {
         ),
         networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
-    ).call(params: CelebritiesParams(page: id));
+    ).call(params: CelebritiesParams(page: page));
 
     PopularCelebritiesInitial.fold(
       (failure) =>

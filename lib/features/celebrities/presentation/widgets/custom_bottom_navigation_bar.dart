@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular_celebrities_cubit.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key});
@@ -25,6 +27,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               onTap: () {
                 setState(() {
                   choice = 'Popular';
+
+                  BlocProvider.of<PopularCelebritiesCubit>(context)
+                      .eitherFailureOrPopularCelebritiesInitial(page: 1);
                 });
               },
               child: Column(
