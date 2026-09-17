@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_dock_application/core/widgets/custom_tab_bar.dart';
-import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular_celebrities_cubit.dart';
-import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular_celebrities_state.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular/popular_celebrities_cubit.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular/popular_celebrities_state.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/trending/trending_celebrities_cubit.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/trending/trending_celebrities_state.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/widgets/celebrities_feed.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/widgets/custom_bottom_navigation_bar.dart';
 
@@ -18,8 +20,6 @@ class _CelebritiesScreenState extends State<CelebritiesScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    BlocProvider.of<PopularCelebritiesCubit>(context)
-        .eitherFailureOrPopularCelebritiesInitial(page: 1);
   }
 
   @override
@@ -43,22 +43,43 @@ class _CelebritiesScreenState extends State<CelebritiesScreen> {
             CustomTabBar(),
 
             Expanded(
-              child:
-                  BlocBuilder<PopularCelebritiesCubit, PopularCelebritiesState>(
-                    builder: (context, state) {
-                      if (state is PopularCelebritiesLoading) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (state is PopularCelebritiesSuccessfully) {
-                        return CelebritiesFeed(
-                          PopularCelebrities: state.PopularCelebrities,
-                        );
-                      } else if (state is PopularCelebritiesFailure) {
-                        return Center(child: Text(state.errMessage));
-                      }
+              child: CustomBottomNavigationBar.choice == 'Popular'
+                  ? BlocBuilder<
+                      PopularCelebritiesCubit,
+                      PopularCelebritiesState
+                    >(
+                      builder: (context, state) {
+                        if (state is PopularCelebritiesLoading) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (state is PopularCelebritiesSuccessfully) {
+                          return CelebritiesFeed(
+                            Celebrities: state.PopularCelebrities,
+                          );
+                        } else if (state is PopularCelebritiesFailure) {
+                          return Center(child: Text(state.errMessage));
+                        }
 
-                      return Text('omar');
-                    },
-                  ),
+                        return SizedBox();
+                      },
+                    )
+                  : BlocBuilder<
+                      TrendingCelebritiesCubit,
+                      TrendingCelebritiesState
+                    >(
+                      builder: (context, state) {
+                        if (state is TrendingCelebritiesLoading) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (state is TrendingCelebritiesSuccessfully) {
+                          return CelebritiesFeed(
+                            Celebrities: state.TrendingCelebrities,
+                          );
+                        } else if (state is TrendingCelebritiesFailure) {
+                          return Center(child: Text(state.errMessage));
+                        }
+
+                        return SizedBox();
+                      },
+                    ),
             ),
           ],
         ),
@@ -70,7 +91,11 @@ class _CelebritiesScreenState extends State<CelebritiesScreen> {
           right: 63,
           left: 63,
         ),
-        child: CustomBottomNavigationBar(),
+        child: CustomBottomNavigationBar(
+          onTabChanged: () {
+            setState(() {});
+          },
+        ),
       ),
     );
   }

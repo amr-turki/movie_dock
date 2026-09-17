@@ -3,6 +3,7 @@ abstract class EndPoints {
       "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZTFkNmYyN2QzODZkZmNhZmM4YzgzOTQ3ZjY1YjBjMiIsIm5iZiI6MTc4ODgwODYxNi4xNDgsInN1YiI6IjZhOWYwZGE4OTVhNjVjZTUxYmM3NTIxZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mPM_EZYzwAa1N6AVOQXTwnIqaRBOz_be5kX29uY6eXM";
   static const String baseUrl = "https://api.themoviedb.org/3/";
   static const String popularCelebrities = "person/popular";
+  static const String trendingCelebrities = "trending/person/day";
 }
 
 abstract class ApiKey {
@@ -21,6 +22,7 @@ abstract class ApiKey {
   static const String profilePath = 'profile_path';
   static const String knownFor = 'known_for';
 
+  static const String video = "video";
   static const String title = 'title';
   static const String originalTitle = 'original_title';
   static const String overview = 'overview';

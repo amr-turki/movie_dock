@@ -8,4 +8,6 @@ abstract class CelebritiesRepository {
   Future<Either<Failure, List<CelebritiesEntity>>> getPopularCelebrities({
     required CelebritiesParams params,
   });
+
+  Future<Either<Failure, List<CelebritiesEntity>>> getTrendingCelebrities();
 }

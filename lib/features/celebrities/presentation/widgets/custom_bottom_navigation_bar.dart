@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular_celebrities_cubit.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular/popular_celebrities_cubit.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/trending/trending_celebrities_cubit.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar({super.key});
-
+  const CustomBottomNavigationBar({super.key, required this.onTabChanged});
+  static String? choice = 'Popular';
+  final VoidCallback? onTabChanged;
   @override
   State<CustomBottomNavigationBar> createState() =>
       _CustomBottomNavigationBarState();
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  String? choice = 'Popular';
   Color color = Colors.deepPurpleAccent;
 
   @override
@@ -26,10 +27,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  choice = 'Popular';
+                  CustomBottomNavigationBar.choice = 'Popular';
 
-                  BlocProvider.of<PopularCelebritiesCubit>(context)
-                      .eitherFailureOrPopularCelebritiesInitial(page: 1);
+                  widget.onTabChanged?.call();
                 });
               },
               child: Column(
@@ -37,13 +37,17 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   Icon(
                     Icons.favorite,
                     size: 24,
-                    color: choice == 'Popular' ? color : Colors.black,
+                    color: CustomBottomNavigationBar.choice == 'Popular'
+                        ? color
+                        : Colors.black,
                   ),
                   Text(
                     'Popular',
                     style: TextStyle(
                       fontSize: 16,
-                      color: choice == 'Popular' ? color : Colors.black,
+                      color: CustomBottomNavigationBar.choice == 'Popular'
+                          ? color
+                          : Colors.black,
                     ),
                   ),
                 ],
@@ -53,7 +57,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  choice = 'Trending';
+                  CustomBottomNavigationBar.choice = 'Trending';
+
+                  widget.onTabChanged?.call();
                 });
               },
               child: Column(
@@ -61,13 +67,17 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   Icon(
                     Icons.trending_up,
                     size: 24,
-                    color: choice == 'Trending' ? color : Colors.black,
+                    color: CustomBottomNavigationBar.choice == 'Trending'
+                        ? color
+                        : Colors.black,
                   ),
                   Text(
                     'Trending',
                     style: TextStyle(
                       fontSize: 16,
-                      color: choice == 'Trending' ? color : Colors.black,
+                      color: CustomBottomNavigationBar.choice == 'Trending'
+                          ? color
+                          : Colors.black,
                     ),
                   ),
                 ],

@@ -39,6 +39,7 @@ dependencies:
   data_connection_checker_tv: ^0.3.5-nullsafety
   dartz: ^0.10.1
   flutter_bloc: ^9.1.1
+  cached_network_image: ^4.0.0
 
 dev_dependencies:
   flutter_test:

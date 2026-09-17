@@ -1,3 +1,5 @@
+import 'package:movie_dock_application/features/celebrities/data/models/trending_celebrities_model.dart';
+
 import '../../../../core/databases/api/api_consumer.dart';
 import '../../../../core/databases/api/end_points.dart';
 import '../../../../core/params/params.dart';
@@ -19,6 +21,19 @@ class CelebritiesRemoteDataSource {
     if (response[ApiKey.results] != null) {
       for (var celebritie in response[ApiKey.results]) {
         celebrities.add(PopularCelebritiesModel.fromJson(celebritie));
+      }
+    }
+    return celebrities;
+  }
+
+  Future<List<TrendingCelebritiesModel>> getTrendingCelebrities() async {
+    final response = await api.get(EndPoints.trendingCelebrities);
+
+    List<TrendingCelebritiesModel> celebrities = [];
+    if (response[ApiKey.results] != null) {
+      for (var celebritie in response[ApiKey.results]) {
+        if (celebritie[ApiKey.mediaType] == 'person')
+          celebrities.add(TrendingCelebritiesModel.fromJson(celebritie));
       }
     }
     return celebrities;

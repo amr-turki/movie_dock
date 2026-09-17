@@ -32,4 +32,19 @@ class CelebritiesRepositoryImpl extends CelebritiesRepository {
       return Left(Failure(errMessage: "No Internet Connection"));
     }
   }
+
+  Future<Either<Failure, List<CelebritiesEntity>>>
+  getTrendingCelebrities() async {
+    if (await networkInfo.isConnected!) {
+      try {
+        final remoteCelebrities = await remoteDataSource
+            .getTrendingCelebrities();
+        return Right(remoteCelebrities);
+      } on ServerException catch (e) {
+        return Left(Failure(errMessage: e.errorModel.statusMessage));
+      }
+    } else {
+      return Left(Failure(errMessage: "No Internet Connection"));
+    }
+  }
 }

@@ -1,11 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_dock_application/features/celebrities/domain/entities/celebrities_entitiy.dart';
-import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular_celebrities_cubit.dart';
 
 class CelebritiesFeed extends StatelessWidget {
-  const CelebritiesFeed({super.key, required this.PopularCelebrities});
+  const CelebritiesFeed({super.key, required this.Celebrities});
 
-  final List<CelebritiesEntity> PopularCelebrities;
+  final List<CelebritiesEntity> Celebrities;
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -15,24 +15,54 @@ class CelebritiesFeed extends StatelessWidget {
         mainAxisSpacing: 8,
         childAspectRatio: 0.6,
       ),
-      itemCount: PopularCelebrities.length,
+      itemCount: Celebrities.length,
 
       itemBuilder: (context, index) {
+        final actor = Celebrities[index];
+        final bool hasProfile =
+            actor.profilePath != null && actor.profilePath!.isNotEmpty;
         return Column(
           children: [
             Expanded(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  PopularCelebrities[index].profilePath!.isNotEmpty
-                      ? 'https://media.themoviedb.org/t/p/w600_and_h900_face${PopularCelebrities[index].profilePath}'
-                      : 'https://via.placeholder.com/500x750',
-                ),
+                child: hasProfile
+                    ? CachedNetworkImage(
+                        imageUrl:
+                            'https://image.tmdb.org/t/p/w342${actor.profilePath}',
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        placeholder: (context, url) => Container(
+                          color: Colors.grey[200],
+                          child: const Center(
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          width: double.infinity,
+                          color: Colors.grey[200],
+                          child: const Icon(
+                            Icons.person,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: double.infinity,
+
+                        color: Colors.grey[200],
+                        child: const Icon(
+                          Icons.person,
+                          size: 120,
+                          color: Colors.grey,
+                        ),
+                      ),
               ),
             ),
             SizedBox(height: 4),
             Text(
-              '${PopularCelebrities[index].originalName}',
+              '${Celebrities[index].originalName}',
               maxLines: 1,
 
               style: TextStyle(
