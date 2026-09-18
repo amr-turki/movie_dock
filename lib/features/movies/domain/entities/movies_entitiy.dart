@@ -1,15 +1,6 @@
-import 'package:happytech_clean_architecture/features/movies/domain/entities/sub_enities/address_entity.dart';
+class MoviesEntity {
+  final String posterPath;
+  final int id;
 
-class moviesEntity {
-  final String name;
-  final String phone;
-  final String email;
-  final AddressEntity address;
-
-  moviesEntity({
-    required this.name,
-    required this.phone,
-    required this.email,
-    required this.address,
-  });
+  MoviesEntity({required this.id, required this.posterPath});
 }

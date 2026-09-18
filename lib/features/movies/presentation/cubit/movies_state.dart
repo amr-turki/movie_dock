@@ -1,21 +1,19 @@
-import 'package:happytech_clean_architecture/features/movies/domain/entities/movies_entitiy.dart';
+import 'package:movie_dock_application/features/movies/domain/entities/movies_entitiy.dart';
 
-class moviesState {}
+abstract class MoviesState {}
 
-final class moviesInitial extends moviesState {}
+final class MoviesInitial extends MoviesState {}
 
-final class UpdateSLider extends moviesState {}
+final class GetMoviesLoading extends MoviesState {}
 
-final class GetmoviesSuccessfully extends moviesState {
-  final moviesEntity movies;
+final class GetMoviesSuccessfully extends MoviesState {
+  final List<MoviesEntity> movies;
 
-  GetmoviesSuccessfully({required this.movies});
+  GetMoviesSuccessfully({required this.movies});
 }
 
-final class GetmoviesLoading extends moviesState {}
-
-final class GetmoviesFailure extends moviesState {
+final class GetMoviesFailure extends MoviesState {
   final String errMessage;
 
-  GetmoviesFailure({required this.errMessage});
+  GetMoviesFailure({required this.errMessage});
 }

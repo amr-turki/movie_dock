@@ -40,7 +40,7 @@ class _CelebritiesScreenState extends State<CelebritiesScreen> {
               ),
             ),
 
-            CustomTabBar(),
+            CustomTabBar(choice: 'Celebrities'),
 
             Expanded(
               child: CustomBottomNavigationBar.choice == 'Popular'

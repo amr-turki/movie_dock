@@ -1,32 +1,78 @@
 import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:happytech_clean_architecture/core/connection/network_info.dart';
-import 'package:happytech_clean_architecture/core/databases/api/dio_consumer.dart';
-import 'package:happytech_clean_architecture/core/databases/cache/cache_helper.dart';
-import 'package:happytech_clean_architecture/core/params/params.dart';
-import 'package:happytech_clean_architecture/features/movies/data/datasources/movies_local_data_source.dart';
-import 'package:happytech_clean_architecture/features/movies/data/datasources/movies_remote_data_source.dart';
-import 'package:happytech_clean_architecture/features/movies/data/repositories/movies_repository_impl.dart';
-import 'package:happytech_clean_architecture/features/movies/domain/usecases/get_movies.dart';
-import 'package:happytech_clean_architecture/features/movies/presentation/cubit/movies_state.dart';
+import 'package:movie_dock_application/core/connection/network_info.dart';
+import 'package:movie_dock_application/core/databases/api/dio_consumer.dart';
+import 'package:movie_dock_application/core/params/params.dart';
+import 'package:movie_dock_application/features/movies/data/datasources/movies_remote_data_source.dart';
+import 'package:movie_dock_application/features/movies/data/repositories/movies_repository_impl.dart';
+import 'package:movie_dock_application/features/movies/domain/usecases/get_movies.dart';
+import 'package:movie_dock_application/features/movies/presentation/cubit/movies_state.dart';
 
-class moviesCubit extends Cubit<moviesState> {
-  moviesCubit() : super(moviesInitial());
+class MoviesCubit extends Cubit<MoviesState> {
+  MoviesCubit() : super(MoviesInitial());
 
-  eitherFailureOrmovies(int id) async {
-    emit(GetmoviesLoading());
-    final failureOrmovies = await Getmovies(
-      repository: moviesRepositoryImpl(
-        remoteDataSource: moviesRemoteDataSource(api: DioConsumer(dio: Dio())),
-        localDataSource: moviesLocalDataSource(cache: CacheHelper()),
+  Future<void> eitherFailureOrMoviesNowPlaying() async {
+    emit(GetMoviesLoading());
+
+    final failureOrMovies = await GetMovies(
+      repository: MoviesRepositoryImpl(
+        remoteDataSource: MoviesRemoteDataSource(api: DioConsumer(dio: Dio())),
         networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
-    ).call(params: moviesParams(id: id.toString()));
+    ).NowPlaying(params: MoviesParams(page: 1));
 
-    failureOrmovies.fold(
-      (failure) => emit(GetmoviesFailure(errMessage: failure.errMessage)),
-      (movies) => emit(GetmoviesSuccessfully(movies: movies)),
+    failureOrMovies.fold(
+      (failure) => emit(GetMoviesFailure(errMessage: failure.errMessage)),
+      (movies) => emit(GetMoviesSuccessfully(movies: movies)),
+    );
+  }
+
+  Future<void> eitherFailureOrMoviesPopularList() async {
+    emit(GetMoviesLoading());
+
+    final failureOrMovies = await GetMovies(
+      repository: MoviesRepositoryImpl(
+        remoteDataSource: MoviesRemoteDataSource(api: DioConsumer(dio: Dio())),
+        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
+      ),
+    ).PopularList(params: MoviesParams(page: 1));
+
+    failureOrMovies.fold(
+      (failure) => emit(GetMoviesFailure(errMessage: failure.errMessage)),
+      (movies) => emit(GetMoviesSuccessfully(movies: movies)),
+    );
+  }
+
+  Future<void> eitherFailureOrMoviesTopRated() async {
+    emit(GetMoviesLoading());
+
+    final failureOrMovies = await GetMovies(
+      repository: MoviesRepositoryImpl(
+        remoteDataSource: MoviesRemoteDataSource(api: DioConsumer(dio: Dio())),
+        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
+      ),
+    ).TopRated(params: MoviesParams(page: 1));
+
+    failureOrMovies.fold(
+      (failure) => emit(GetMoviesFailure(errMessage: failure.errMessage)),
+      (movies) => emit(GetMoviesSuccessfully(movies: movies)),
+    );
+  }
+
+  Future<void> eitherFailureOrMoviesUpcomingList() async {
+    emit(GetMoviesLoading());
+
+    final failureOrMovies = await GetMovies(
+      repository: MoviesRepositoryImpl(
+        remoteDataSource: MoviesRemoteDataSource(api: DioConsumer(dio: Dio())),
+        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
+      ),
+    ).UpcomingList(params: MoviesParams(page: 1));
+
+    failureOrMovies.fold(
+      (failure) => emit(GetMoviesFailure(errMessage: failure.errMessage)),
+      (movies) => emit(GetMoviesSuccessfully(movies: movies)),
     );
   }
 }

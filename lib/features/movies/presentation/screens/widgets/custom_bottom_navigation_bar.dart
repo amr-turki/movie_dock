@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_dock_application/features/movies/presentation/cubit/movies_cubit.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key, required this.onTabChanged});
-  static String? choice = 'Airing Today';
+  static String? choice = 'Now Playing';
   final VoidCallback? onTabChanged;
   @override
   State<CustomBottomNavigationBar> createState() =>
@@ -19,13 +21,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
           children: [
             GestureDetector(
               onTap: () {
                 setState(() {
                   CustomBottomNavigationBar.choice = 'Now Playing';
-
+                  BlocProvider.of<MoviesCubit>(context)
+                      .eitherFailureOrMoviesNowPlaying();
                   widget.onTabChanged?.call();
                 });
               },
@@ -55,7 +57,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               onTap: () {
                 setState(() {
                   CustomBottomNavigationBar.choice = 'Top Rated';
-
+                  BlocProvider.of<MoviesCubit>(context)
+                      .eitherFailureOrMoviesTopRated();
                   widget.onTabChanged?.call();
                 });
               },
@@ -69,7 +72,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                         : Colors.black,
                   ),
                   Text(
-                    'Top Ratedr',
+                    'Top Rated',
                     style: TextStyle(
                       fontSize: 16,
                       color: CustomBottomNavigationBar.choice == 'Top Rated'
@@ -84,7 +87,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               onTap: () {
                 setState(() {
                   CustomBottomNavigationBar.choice = 'Popular';
-
+                  BlocProvider.of<MoviesCubit>(context)
+                      .eitherFailureOrMoviesPopularList();
                   widget.onTabChanged?.call();
                 });
               },
@@ -113,7 +117,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               onTap: () {
                 setState(() {
                   CustomBottomNavigationBar.choice = 'Upcoming';
-
+                  BlocProvider.of<MoviesCubit>(context)
+                      .eitherFailureOrMoviesUpcomingList();
                   widget.onTabChanged?.call();
                 });
               },

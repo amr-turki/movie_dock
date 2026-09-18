@@ -5,6 +5,8 @@ import 'package:movie_dock_application/features/celebrities/presentation/cubit/c
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular/popular_celebrities_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/trending/trending_celebrities_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/screens/celebrities_screen.dart';
+import 'package:movie_dock_application/features/movies/presentation/cubit/movies_cubit.dart';
+import 'package:movie_dock_application/features/movies/presentation/screens/movies_screen.dart';
 
 void main() {
   runApp(MovieDockApplication());
@@ -29,6 +31,23 @@ class MovieDockApplication extends StatelessWidget {
         ),
         BlocProvider(create: (context) => CombinedCreditsCubit()),
         BlocProvider(create: (context) => CelebritieDetailsCubit()),
+        BlocProvider(
+          create: (context) => MoviesCubit()..eitherFailureOrMoviesNowPlaying(),
+        ),
+
+        BlocProvider(
+          create: (context) =>
+              MoviesCubit()..eitherFailureOrMoviesPopularList(),
+        ),
+
+        BlocProvider(
+          create: (context) => MoviesCubit()..eitherFailureOrMoviesTopRated(),
+        ),
+
+        BlocProvider(
+          create: (context) =>
+              MoviesCubit()..eitherFailureOrMoviesUpcomingList(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -13,6 +13,12 @@ abstract class EndPoints {
     String path = "person/" + id;
     return path;
   }
+
+  static const String nowPlaying = "movie/now_playing";
+  static const String popular = 'movie/popular';
+  static const String TopRated = 'movie/top_rated';
+  static const String upcoming = 'movie/upcoming';
+  static String movieDetails(int id) => "movie/$id";
 }
 
 abstract class ApiKey {
@@ -63,4 +69,19 @@ abstract class ApiKey {
   static const String job = 'job';
   static const String episodeCount = 'episode_count';
   static const String firstCreditAirDate = 'first_credit_air_date';
+
+  static const String runtime = 'runtime';
+  static const String status = 'status';
+  static const String budget = 'budget';
+  static const String revenue = 'revenue';
+  static const String tagline = 'tagline';
+  static const String genres = 'genres';
+  static const String belongsToCollection = 'belongs_to_collection';
+  static const String productionCompanies = 'production_companies';
+  static const String productionCountries = 'production_countries';
+  static const String spokenLanguages = 'spoken_languages';
+  static const String logoPath = 'logo_path';
+  static const String iso31661 = 'iso_3166_1';
+  static const String iso6391 = 'iso_639_1';
+  static const String englishName = 'english_name';
 }

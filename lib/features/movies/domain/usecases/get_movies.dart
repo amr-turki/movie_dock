@@ -1,15 +1,36 @@
 import 'package:dartz/dartz.dart';
-import 'package:happytech_clean_architecture/core/errors/failure.dart';
-import 'package:happytech_clean_architecture/core/params/params.dart';
-import 'package:happytech_clean_architecture/features/movies/domain/entities/movies_entitiy.dart';
-import 'package:happytech_clean_architecture/features/movies/domain/repositories/movies_repository.dart';
+import 'package:movie_dock_application/features/movies/domain/entities/movies_entitiy.dart';
+import 'package:movie_dock_application/features/movies/domain/repositories/movies_repository.dart';
 
-class Getmovies {
-  final moviesRepository repository;
+import '../../../../core/errors/failure.dart';
+import '../../../../core/params/params.dart';
 
-  Getmovies({required this.repository});
+class GetMovies {
+  final MoviesRepository repository;
 
-  Future<Either<Failure, moviesEntity>> call({required moviesParams params}) {
-    return repository.getmovies(params: params);
+  GetMovies({required this.repository});
+
+  Future<Either<Failure, List<MoviesEntity>>> NowPlaying({
+    required MoviesParams params,
+  }) {
+    return repository.getMoviesNowPlaying(params: params);
+  }
+
+  Future<Either<Failure, List<MoviesEntity>>> PopularList({
+    required MoviesParams params,
+  }) {
+    return repository.getMoviesPopularList(params: params);
+  }
+
+  Future<Either<Failure, List<MoviesEntity>>> TopRated({
+    required MoviesParams params,
+  }) {
+    return repository.getMoviesTopRated(params: params);
+  }
+
+  Future<Either<Failure, List<MoviesEntity>>> UpcomingList({
+    required MoviesParams params,
+  }) {
+    return repository.getMoviesUpcomingList(params: params);
   }
 }
