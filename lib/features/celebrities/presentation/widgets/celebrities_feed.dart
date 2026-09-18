@@ -13,6 +13,7 @@ class CelebritiesFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      physics: const BouncingScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // 2 columns
         crossAxisSpacing: 8,

@@ -28,206 +28,212 @@ class CelebritieDetails extends StatelessWidget {
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 55),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.arrow_back, size: 24),
-                      ),
-                      Text(
-                        state.CelebritieDetails.name,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 55),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Icons.arrow_back, size: 24),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.favorite_border, size: 24),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
+                        Text(
+                          state.CelebritieDetails.name,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.favorite_border, size: 24),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
 
-                  Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: hasProfile
-                            ? CachedNetworkImage(
-                                imageUrl:
-                                    'https://image.tmdb.org/t/p/w342${state.CelebritieDetails.profilePath}',
-                                fit: BoxFit.cover,
-                                width: 125,
-                                height: 170,
-                                placeholder: (context, url) => Container(
-                                  color: Colors.grey[200],
-                                  child: const Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: hasProfile
+                              ? CachedNetworkImage(
+                                  imageUrl:
+                                      'https://image.tmdb.org/t/p/w342${state.CelebritieDetails.profilePath}',
+                                  fit: BoxFit.cover,
+                                  width: 125,
+                                  height: 170,
+                                  placeholder: (context, url) => Container(
+                                    color: Colors.grey[200],
+                                    child: const Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                errorWidget: (context, url, error) => Container(
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                        width: double.infinity,
+                                        color: Colors.grey[200],
+                                        child: const Icon(
+                                          Icons.person,
+                                          size: 50,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                )
+                              : Container(
                                   width: double.infinity,
+
                                   color: Colors.grey[200],
                                   child: const Icon(
                                     Icons.person,
-                                    size: 50,
+                                    size: 120,
                                     color: Colors.grey,
                                   ),
                                 ),
-                              )
-                            : Container(
-                                width: double.infinity,
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${state.CelebritieDetails.name}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 20,
 
-                                color: Colors.grey[200],
-                                child: const Icon(
-                                  Icons.person,
-                                  size: 120,
-                                  color: Colors.grey,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${state.CelebritieDetails.name}',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 20,
+                                SizedBox(height: 10),
 
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  'Artist Detail',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black.withOpacity(0.4),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 10),
+                                Text(
+                                  state.CelebritieDetails.knownForDepartment,
 
-                              Text(
-                                'Artist Detail',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black.withOpacity(0.4),
-                                  fontWeight: FontWeight.bold,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                state.CelebritieDetails.knownForDepartment,
+                                SizedBox(height: 10),
+                                Text(
+                                  'Birthday',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  state.CelebritieDetails.birthday,
 
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                'Birthday',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                state.CelebritieDetails.birthday,
+                                SizedBox(height: 10),
 
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  'Place of Birth',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black.withOpacity(0.4),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 10),
+                                Text(
+                                  state.CelebritieDetails.placeOfBirth,
 
-                              Text(
-                                'Place of Birth',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black.withOpacity(0.4),
-                                  fontWeight: FontWeight.bold,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                state.CelebritieDetails.birthday,
-
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
+                      ],
+                    ),
+                    Text(
+                      'Biography',
+                      style: TextStyle(
+                        fontSize: 27,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                  Text(
-                    'Biography',
-                    style: TextStyle(
-                      fontSize: 27,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  ReadMoreText(
-                    state.CelebritieDetails.biography,
-                    style: TextStyle(fontSize: 14, color: Colors.black),
-                    numLines: 4,
-                    readMoreText: 'Show more',
-                    readLessText: 'Show less',
-                  ),
-                  SizedBox(height: 25),
-                  Text(
-                    'Movies & TV Shows',
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                    SizedBox(height: 5),
+                    ReadMoreText(
+                      state.CelebritieDetails.biography,
+                      style: TextStyle(fontSize: 14, color: Colors.black),
+                      numLines: 4,
+                      readMoreText: 'Show more',
+                      readLessText: 'Show less',
                     ),
-                  ),
-                  SizedBox(height: 5),
+                    SizedBox(height: 25),
+                    Text(
+                      'Movies & TV Shows',
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5),
 
-                  Expanded(
-                    child:
-                        BlocBuilder<CombinedCreditsCubit, CombinedCreditsState>(
-                          builder: (context, state) {
-                            if (state is CombinedCreditsFailure) {
-                              return Center(child: Text(state.errMessage));
-                            } else if (state is CombinedCreditsLoading) {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 4,
-                                ),
-                              );
-                            } else if (state is CombinedCreditsSuccessfully) {
-                              return MoviesTvShowCelebritie(
-                                CombinedCredits: state.CombinedCredits,
-                              );
-                            }
-                            return SizedBox();
-                          },
-                        ),
-                  ),
-                  SizedBox(height: 25),
-
-                  SizedBox(height: 100),
-                ],
+                    SizedBox(
+                      height: 200,
+                      child:
+                          BlocBuilder<
+                            CombinedCreditsCubit,
+                            CombinedCreditsState
+                          >(
+                            builder: (context, state) {
+                              if (state is CombinedCreditsFailure) {
+                                return Center(child: Text(state.errMessage));
+                              } else if (state is CombinedCreditsLoading) {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 4,
+                                  ),
+                                );
+                              } else if (state is CombinedCreditsSuccessfully) {
+                                return MoviesTvShowCelebritie(
+                                  CombinedCredits: state.CombinedCredits,
+                                );
+                              }
+                              return SizedBox();
+                            },
+                          ),
+                    ),
+                    SizedBox(height: 100),
+                  ],
+                ),
               ),
             );
           }

@@ -10,7 +10,7 @@ class MoviesTvShowCelebritie extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 80,
+      height: 150,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: CombinedCredits.length,
@@ -29,7 +29,7 @@ class MoviesTvShowCelebritie extends StatelessWidget {
                           'https://image.tmdb.org/t/p/w342${CombinedCredits[index].posterPath}',
 
                       fit: BoxFit.cover,
-                      height: 80,
+                      height: 100,
                       width: 120,
                       placeholder: (context, url) => Container(
                         color: Colors.grey[200],
