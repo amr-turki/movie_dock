@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular/popular_celebrities_cubit.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/trending/trending_celebrities_cubit.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key, required this.onTabChanged});
@@ -25,7 +28,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               onTap: () {
                 setState(() {
                   CustomBottomNavigationBar.choice = 'Popular';
-
+                  BlocProvider.of<PopularCelebritiesCubit>(context)
+                      .eitherFailureOrPopularCelebritiesInitial(page: 1);
                   widget.onTabChanged?.call();
                 });
               },
@@ -55,6 +59,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               onTap: () {
                 setState(() {
                   CustomBottomNavigationBar.choice = 'Trending';
+                  BlocProvider.of<TrendingCelebritiesCubit>(context)
+                      .eitherFailureOrTrendingCelebritiesInitial();
 
                   widget.onTabChanged?.call();
                 });

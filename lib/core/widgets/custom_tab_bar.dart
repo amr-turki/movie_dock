@@ -3,8 +3,9 @@ import 'package:movie_dock_application/features/celebrities/presentation/screens
 import 'package:movie_dock_application/features/movies/presentation/screens/movies_screen.dart';
 
 class CustomTabBar extends StatefulWidget {
-  CustomTabBar({super.key, required this.choice});
-  String? choice = 'Celebrities';
+  CustomTabBar({super.key, required this.onTabChanged});
+  final VoidCallback? onTabChanged;
+  static String? choice = 'Celebrities';
 
   @override
   State<CustomTabBar> createState() => _CustomTabBarState();
@@ -24,8 +25,10 @@ class _CustomTabBarState extends State<CustomTabBar> {
           children: [
             GestureDetector(
               onTap: () {
-                widget.choice = 'Movies';
-
+                setState(() {
+                  CustomTabBar.choice = 'Movies';
+                  widget.onTabChanged?.call();
+                });
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -40,17 +43,21 @@ class _CustomTabBarState extends State<CustomTabBar> {
                   Icon(
                     Icons.movie,
                     size: 24,
-                    color: widget.choice == 'Movies' ? color : Colors.black,
+                    color: CustomTabBar.choice == 'Movies'
+                        ? color
+                        : Colors.black,
                   ),
                   Text(
                     'Movies',
                     style: TextStyle(
                       fontSize: 16,
-                      color: widget.choice == 'Movies' ? color : Colors.black,
+                      color: CustomTabBar.choice == 'Movies'
+                          ? color
+                          : Colors.black,
                     ),
                   ),
                   SizedBox(height: 4),
-                  widget.choice == 'Movies'
+                  CustomTabBar.choice == 'Movies'
                       ? Container(
                           height: 4,
                           width: 75,
@@ -72,18 +79,22 @@ class _CustomTabBarState extends State<CustomTabBar> {
                 Icon(
                   Icons.tv,
                   size: 24,
-                  color: widget.choice == 'TV Series' ? color : Colors.black,
+                  color: CustomTabBar.choice == 'TV Series'
+                      ? color
+                      : Colors.black,
                 ),
                 Text(
                   'TV Series',
                   style: TextStyle(
                     fontSize: 16,
-                    color: widget.choice == 'TV Series' ? color : Colors.black,
+                    color: CustomTabBar.choice == 'TV Series'
+                        ? color
+                        : Colors.black,
                   ),
                 ),
                 SizedBox(height: 4),
 
-                widget.choice == 'TV Series'
+                CustomTabBar.choice == 'TV Series'
                     ? Container(
                         height: 4,
                         width: 74,
@@ -101,8 +112,10 @@ class _CustomTabBarState extends State<CustomTabBar> {
 
             GestureDetector(
               onTap: () {
-                widget.choice = 'Celebrities';
-
+                setState(() {
+                  CustomTabBar.choice = 'Celebrities';
+                  widget.onTabChanged?.call();
+                });
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -117,7 +130,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
                   Icon(
                     Icons.people,
                     size: 24,
-                    color: widget.choice == 'Celebrities'
+                    color: CustomTabBar.choice == 'Celebrities'
                         ? color
                         : Colors.black,
                   ),
@@ -125,14 +138,14 @@ class _CustomTabBarState extends State<CustomTabBar> {
                     'Celebrities',
                     style: TextStyle(
                       fontSize: 16,
-                      color: widget.choice == 'Celebrities'
+                      color: CustomTabBar.choice == 'Celebrities'
                           ? color
                           : Colors.black,
                     ),
                   ),
                   SizedBox(height: 4),
 
-                  widget.choice == 'Celebrities'
+                  CustomTabBar.choice == 'Celebrities'
                       ? Container(
                           height: 4,
                           width: 74,
@@ -153,18 +166,22 @@ class _CustomTabBarState extends State<CustomTabBar> {
                 Icon(
                   Icons.favorite,
                   size: 24,
-                  color: widget.choice == 'Favorites' ? color : Colors.black,
+                  color: CustomTabBar.choice == 'Favorites'
+                      ? color
+                      : Colors.black,
                 ),
                 Text(
                   'Favorites',
                   style: TextStyle(
                     fontSize: 16,
-                    color: widget.choice == 'Favorites' ? color : Colors.black,
+                    color: CustomTabBar.choice == 'Favorites'
+                        ? color
+                        : Colors.black,
                   ),
                 ),
                 SizedBox(height: 4),
 
-                widget.choice == 'Favorites'
+                CustomTabBar.choice == 'Favorites'
                     ? Container(
                         height: 4,
                         width: 74,

@@ -16,6 +16,14 @@ class MoviesScreen extends StatefulWidget {
 
 class _MoviesScreenState extends State<MoviesScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    BlocProvider.of<MoviesCubit>(context).eitherFailureOrMoviesNowPlaying();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -34,7 +42,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
               ),
             ),
 
-            CustomTabBar(choice: 'Movies'),
+            CustomTabBar(
+              onTabChanged: () {
+                setState(() {});
+              },
+            ),
 
             Expanded(
               child: BlocBuilder<MoviesCubit, MoviesState>(

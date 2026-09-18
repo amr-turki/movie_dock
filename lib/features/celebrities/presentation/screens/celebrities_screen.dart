@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_dock_application/core/widgets/custom_tab_bar.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/celebritiedetails/celebritie_details_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular/popular_celebrities_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular/popular_celebrities_state.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/trending/trending_celebrities_cubit.dart';
@@ -20,6 +21,9 @@ class _CelebritiesScreenState extends State<CelebritiesScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    BlocProvider.of<PopularCelebritiesCubit>(context)
+        .eitherFailureOrPopularCelebritiesInitial(page: 1);
   }
 
   @override
@@ -40,7 +44,11 @@ class _CelebritiesScreenState extends State<CelebritiesScreen> {
               ),
             ),
 
-            CustomTabBar(choice: 'Celebrities'),
+            CustomTabBar(
+              onTabChanged: () {
+                setState(() {});
+              },
+            ),
 
             Expanded(
               child: CustomBottomNavigationBar.choice == 'Popular'

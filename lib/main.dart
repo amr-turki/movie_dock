@@ -6,7 +6,6 @@ import 'package:movie_dock_application/features/celebrities/presentation/cubit/p
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/trending/trending_celebrities_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/screens/celebrities_screen.dart';
 import 'package:movie_dock_application/features/movies/presentation/cubit/movies_cubit.dart';
-import 'package:movie_dock_application/features/movies/presentation/screens/movies_screen.dart';
 
 void main() {
   runApp(MovieDockApplication());
@@ -19,35 +18,11 @@ class MovieDockApplication extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) =>
-              PopularCelebritiesCubit()
-                ..eitherFailureOrPopularCelebritiesInitial(page: 1),
-        ),
-        BlocProvider(
-          create: (context) =>
-              TrendingCelebritiesCubit()
-                ..eitherFailureOrTrendingCelebritiesInitial(),
-        ),
+        BlocProvider(create: (context) => PopularCelebritiesCubit()),
+        BlocProvider(create: (context) => TrendingCelebritiesCubit()),
         BlocProvider(create: (context) => CombinedCreditsCubit()),
         BlocProvider(create: (context) => CelebritieDetailsCubit()),
-        BlocProvider(
-          create: (context) => MoviesCubit()..eitherFailureOrMoviesNowPlaying(),
-        ),
-
-        BlocProvider(
-          create: (context) =>
-              MoviesCubit()..eitherFailureOrMoviesPopularList(),
-        ),
-
-        BlocProvider(
-          create: (context) => MoviesCubit()..eitherFailureOrMoviesTopRated(),
-        ),
-
-        BlocProvider(
-          create: (context) =>
-              MoviesCubit()..eitherFailureOrMoviesUpcomingList(),
-        ),
+        BlocProvider(create: (context) => MoviesCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

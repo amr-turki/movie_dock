@@ -43,7 +43,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   Text(
                     'Now Playing',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: CustomBottomNavigationBar.choice == 'Now Playing'
                           ? color
                           : Colors.black,
@@ -74,7 +74,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   Text(
                     'Top Rated',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: CustomBottomNavigationBar.choice == 'Top Rated'
                           ? color
                           : Colors.black,
@@ -104,7 +104,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   Text(
                     'Popular',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: CustomBottomNavigationBar.choice == 'Popular'
                           ? color
                           : Colors.black,
@@ -134,7 +134,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   Text(
                     'Upcoming',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: CustomBottomNavigationBar.choice == 'Upcoming'
                           ? color
                           : Colors.black,
