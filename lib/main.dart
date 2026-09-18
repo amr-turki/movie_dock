@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/celebritiedetails/celebritie_details_cubit.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/combinedcredits/combined_credits_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular/popular_celebrities_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/trending/trending_celebrities_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/screens/celebrities_screen.dart';
@@ -25,6 +27,8 @@ class MovieDockApplication extends StatelessWidget {
               TrendingCelebritiesCubit()
                 ..eitherFailureOrTrendingCelebritiesInitial(),
         ),
+        BlocProvider(create: (context) => CombinedCreditsCubit()),
+        BlocProvider(create: (context) => CelebritieDetailsCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

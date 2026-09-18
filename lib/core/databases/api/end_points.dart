@@ -4,6 +4,15 @@ abstract class EndPoints {
   static const String baseUrl = "https://api.themoviedb.org/3/";
   static const String popularCelebrities = "person/popular";
   static const String trendingCelebrities = "trending/person/day";
+  static String combinedCredits(String id) {
+    String path = "person/" + id + "/combined_credits";
+    return path;
+  }
+
+  static String CeleritieDetails(String id) {
+    String path = "person/" + id;
+    return path;
+  }
 }
 
 abstract class ApiKey {
@@ -36,4 +45,22 @@ abstract class ApiKey {
   static const String voteAverage = 'vote_average';
   static const String voteCount = 'vote_count';
   static const String originCountry = 'origin_country';
+
+  static const String alsoKnownAs = 'also_known_as';
+  static const String biography = 'biography';
+  static const String birthday = 'birthday';
+  static const String deathday = 'deathday';
+  static const String homepage = 'homepage';
+  static const String imdbId = 'imdb_id';
+  static const String placeOfBirth = 'place_of_birth';
+
+  static const String cast = 'cast';
+  static const String crew = 'crew';
+  static const String character = 'character';
+  static const String creditId = 'credit_id';
+  static const String order = 'order';
+  static const String department = 'department';
+  static const String job = 'job';
+  static const String episodeCount = 'episode_count';
+  static const String firstCreditAirDate = 'first_credit_air_date';
 }

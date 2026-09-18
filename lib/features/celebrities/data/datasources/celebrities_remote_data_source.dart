@@ -1,3 +1,5 @@
+import 'package:movie_dock_application/features/celebrities/data/models/celebritie_combined_credits_model.dart';
+import 'package:movie_dock_application/features/celebrities/data/models/celebritie_details_model.dart';
 import 'package:movie_dock_application/features/celebrities/data/models/trending_celebrities_model.dart';
 
 import '../../../../core/databases/api/api_consumer.dart';
@@ -37,5 +39,25 @@ class CelebritiesRemoteDataSource {
       }
     }
     return celebrities;
+  }
+
+  Future<List<CelebritieCombinedCreditsModel>> GetCelebritieCombinedCredits({
+    required int id,
+  }) async {
+    final response = await api.get(EndPoints.combinedCredits(id.toString()));
+
+    List<CelebritieCombinedCreditsModel> celebrities = [];
+    if (response[ApiKey.cast] != null) {
+      for (var celebritie in response[ApiKey.cast]) {
+        celebrities.add(CelebritieCombinedCreditsModel.fromJson(celebritie));
+      }
+    }
+    return celebrities;
+  }
+
+  Future<CelebritieDetailsModel> GetCelebritieDetails({required int id}) async {
+    final response = await api.get(EndPoints.CeleritieDetails(id.toString()));
+
+    return CelebritieDetailsModel.fromJson(response);
   }
 }

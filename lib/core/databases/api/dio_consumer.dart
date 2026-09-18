@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:movie_dock_application/core/databases/api/api_consumer.dart';
 import 'package:movie_dock_application/core/databases/api/end_points.dart';

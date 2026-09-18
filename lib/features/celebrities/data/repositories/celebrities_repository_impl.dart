@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:movie_dock_application/features/celebrities/domain/entities/celebritie_combined_credits.dart';
+import 'package:movie_dock_application/features/celebrities/domain/entities/celebritie_details.dart';
 
 import '../../../../core/connection/network_info.dart';
 import '../../../../core/errors/expentions.dart';
@@ -39,6 +41,42 @@ class CelebritiesRepositoryImpl extends CelebritiesRepository {
       try {
         final remoteCelebrities = await remoteDataSource
             .getTrendingCelebrities();
+        return Right(remoteCelebrities);
+      } on ServerException catch (e) {
+        return Left(Failure(errMessage: e.errorModel.statusMessage));
+      }
+    } else {
+      return Left(Failure(errMessage: "No Internet Connection"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CelebritieCombinedCredits>>>
+  getCelebritieCombinedCredits({
+    required CelebritieDetailsParams params,
+  }) async {
+    if (await networkInfo.isConnected!) {
+      try {
+        final remoteCelebrities =
+            await remoteDataSource.GetCelebritieCombinedCredits(id: params.id);
+        return Right(remoteCelebrities);
+      } on ServerException catch (e) {
+        return Left(Failure(errMessage: e.errorModel.statusMessage));
+      }
+    } else {
+      return Left(Failure(errMessage: "No Internet Connection"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CelebritieDetail>> getCelebritieDetails({
+    required CelebritieDetailsParams params,
+  }) async {
+    if (await networkInfo.isConnected!) {
+      try {
+        final remoteCelebrities = await remoteDataSource.GetCelebritieDetails(
+          id: params.id,
+        );
         return Right(remoteCelebrities);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));

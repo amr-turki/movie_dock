@@ -477,6 +477,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  read_more_text:
+    dependency: "direct main"
+    description:
+      name: read_more_text
+      sha256: "769750959f26a71408eb912e1b1e714713f72bf3efcc3f89e53c31b11101376c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
+  readmore_flutter:
+    dependency: "direct main"
+    description:
+      name: readmore_flutter
+      sha256: "77a151c335d143b687a44e62dd436203b91d5ddfd6523588ac2fd69ec2e911de"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.3"
   record_use:
     dependency: transitive
     description:
