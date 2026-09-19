@@ -19,6 +19,11 @@ abstract class EndPoints {
   static const String TopRated = 'movie/top_rated';
   static const String upcoming = 'movie/upcoming';
   static String movieDetails(int id) => "movie/$id";
+
+  static const String airiingToday = "tv/airing_today";
+  static const String onTheAir = "tv/on_the_air";
+  static const String topRated = "tv/top_rated";
+  static const String seriesPopular = "tv/popular";
 }
 
 abstract class ApiKey {
