@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/celebritiedetails/celebritie_details_cubit.dart';
 import 'package:movie_dock_application/features/series/domain/entities/tv_series_recommendation.dart';
 import 'package:movie_dock_application/features/series/presentation/cubit/serie_detail/series_cubit.dart';
+import 'package:movie_dock_application/features/series/presentation/cubit/series_recommendation/series_cubit.dart';
 import 'package:movie_dock_application/features/series/presentation/widgets/serie_details.dart';
 
 class RecommendedSeriesFeed extends StatelessWidget {
@@ -25,6 +26,12 @@ class RecommendedSeriesFeed extends StatelessWidget {
               Credits[index].posterPath.isNotEmpty;
           return GestureDetector(
             onTap: () {
+              BlocProvider.of<SerieDetailsCubit>(context)
+                  .eitherFailureOrSeriesDetailsCubit(id: Credits[index].id);
+
+              BlocProvider.of<SeriesRecommendationCubit>(context)
+                  .eitherFailureOrSeriesRecommendation(id: Credits[index].id);
+
               BlocProvider.of<SerieDetailsCubit>(context)
                   .eitherFailureOrSeriesDetailsCubit(id: Credits[index].id);
               Navigator.push(

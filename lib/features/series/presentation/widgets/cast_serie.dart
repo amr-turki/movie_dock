@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/celebritiedetails/celebritie_details_cubit.dart';
+import 'package:movie_dock_application/features/celebrities/presentation/cubit/combinedcredits/combined_credits_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/widgets/celebritie_details.dart';
 import 'package:movie_dock_application/features/series/domain/entities/tv_series_credits.dart';
 
@@ -26,6 +27,9 @@ class CastSerie extends StatelessWidget {
             onTap: () {
               BlocProvider.of<CelebritieDetailsCubit>(context)
                   .eitherFailureOrCelebritieDetails(id: Credits[index].id);
+
+              BlocProvider.of<CombinedCreditsCubit>(context)
+                  .eitherFailureOrCombinedCredits(id: Credits[index].id);
               Navigator.push(
                 context,
                 MaterialPageRoute(
