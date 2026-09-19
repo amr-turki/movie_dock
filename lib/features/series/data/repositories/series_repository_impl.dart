@@ -1,5 +1,10 @@
 import 'package:dartz/dartz.dart';
+import 'package:movie_dock_application/core/params/params.dart';
+import 'package:movie_dock_application/features/celebrities/domain/entities/celebrities_entitiy.dart';
 import 'package:movie_dock_application/features/series/data/datasources/series_remote_data_source.dart';
+import 'package:movie_dock_application/features/series/domain/entities/tv_series_credits.dart';
+import 'package:movie_dock_application/features/series/domain/entities/tv_series_details_entity.dart';
+import 'package:movie_dock_application/features/series/domain/entities/tv_series_recommendation.dart';
 import 'package:movie_dock_application/features/series/domain/entities/tvs_series_entity.dart';
 import 'package:movie_dock_application/features/series/domain/repositories/series_repository.dart';
 
@@ -63,6 +68,57 @@ class SeriesRepositoryImpl extends SeriesRepository {
       try {
         final remoteMovies = await remoteDataSource.getSeriesTopRated();
         return Right(remoteMovies);
+      } on ServerException catch (e) {
+        return Left(Failure(errMessage: e.errorModel.statusMessage));
+      }
+    } else {
+      return Left(Failure(errMessage: "No Internet Connection"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TvSeriesCredits>>> getSerieCredits({
+    required SeriesParams params,
+  }) async {
+    if (await networkInfo.isConnected!) {
+      try {
+        final credits = await remoteDataSource.getSeriecredits(params: params);
+        return Right(credits);
+      } on ServerException catch (e) {
+        return Left(Failure(errMessage: e.errorModel.statusMessage));
+      }
+    } else {
+      return Left(Failure(errMessage: "No Internet Connection"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TvSeriesDetailsEntity>> getSerieDetails({
+    required SeriesParams params,
+  }) async {
+    if (await networkInfo.isConnected!) {
+      try {
+        final serieDetials = await remoteDataSource.getSerieDetails(
+          params: params,
+        );
+        return Right(serieDetials);
+      } on ServerException catch (e) {
+        return Left(Failure(errMessage: e.errorModel.statusMessage));
+      }
+    } else {
+      return Left(Failure(errMessage: "No Internet Connection"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TvSeriesRecommendation>>>
+  getSerieRecommendations({required SeriesParams params}) async {
+    if (await networkInfo.isConnected!) {
+      try {
+        final series = await remoteDataSource.getSeriesRecommendations(
+          params: params,
+        );
+        return Right(series);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
       }

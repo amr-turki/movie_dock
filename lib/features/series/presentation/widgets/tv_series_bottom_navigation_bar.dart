@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_dock_application/features/series/presentation/cubit/series_cubit.dart';
+import 'package:movie_dock_application/features/series/presentation/cubit/series_feed/series_cubit.dart';
 
 class TvSeriesBottomNavigationBar extends StatefulWidget {
   const TvSeriesBottomNavigationBar({super.key, required this.onTabChanged});

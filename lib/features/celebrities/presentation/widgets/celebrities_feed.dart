@@ -28,14 +28,14 @@ class CelebritiesFeed extends StatelessWidget {
             actor.profilePath != null && actor.profilePath!.isNotEmpty;
         return GestureDetector(
           onTap: () {
+            BlocProvider.of<CelebritieDetailsCubit>(context)
+                .eitherFailureOrCelebritieDetails(id: actor.id);
+            BlocProvider.of<CombinedCreditsCubit>(context)
+                .eitherFailureOrCombinedCredits(id: actor.id);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  BlocProvider.of<CelebritieDetailsCubit>(context)
-                      .eitherFailureOrCelebritieDetails(id: actor.id);
-                  BlocProvider.of<CombinedCreditsCubit>(context)
-                      .eitherFailureOrCombinedCredits(id: actor.id);
                   return CelebritieDetails();
                 },
               ),

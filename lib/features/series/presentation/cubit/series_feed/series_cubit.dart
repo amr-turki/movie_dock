@@ -6,7 +6,7 @@ import 'package:movie_dock_application/core/databases/api/dio_consumer.dart';
 import 'package:movie_dock_application/features/series/data/datasources/series_remote_data_source.dart';
 import 'package:movie_dock_application/features/series/data/repositories/series_repository_impl.dart';
 import 'package:movie_dock_application/features/series/domain/usecases/get_series.dart';
-import 'package:movie_dock_application/features/series/presentation/cubit/series_state.dart';
+import 'package:movie_dock_application/features/series/presentation/cubit/series_feed/series_state.dart';
 
 class SeriesCubit extends Cubit<SeriesState> {
   SeriesCubit() : super(GetSeriesInitial());
