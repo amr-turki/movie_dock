@@ -24,6 +24,21 @@ abstract class EndPoints {
   static const String onTheAir = "tv/on_the_air";
   static const String topRated = "tv/top_rated";
   static const String seriesPopular = "tv/popular";
+
+  static String SeriesDetails(String id) {
+    String path = "tv/" + id;
+    return path;
+  }
+
+  static String SeriesCredits(String id) {
+    String path = "tv/" + id + "/credits";
+    return path;
+  }
+
+  static String SeriesRecommendations(String id) {
+    String path = "tv/" + id + "/recommendations";
+    return path;
+  }
 }
 
 abstract class ApiKey {
@@ -89,4 +104,29 @@ abstract class ApiKey {
   static const String iso31661 = 'iso_3166_1';
   static const String iso6391 = 'iso_639_1';
   static const String englishName = 'english_name';
+
+  static const String type = "type";
+  static const String inProduction = "in_production";
+
+  static const String stillPath = "still_path";
+
+  static const String lastAirDate = "last_air_date";
+  static const String airDate = "air_date";
+
+  static const String languages = "languages";
+
+  static const String createdBy = "created_by";
+
+  static const String episodeRunTime = "episode_run_time";
+  static const String numberOfEpisodes = "number_of_episodes";
+  static const String numberOfSeasons = "number_of_seasons";
+  static const String episodeNumber = "episode_number";
+  static const String seasonNumber = "season_number";
+  static const String seasons = "seasons";
+  static const String lastEpisodeToAir = "last_episode_to_air";
+  static const String nextEpisodeToAir = "next_episode_to_air";
+  static const String productionCode = "production_code";
+  static const String showId = "show_id";
+
+  static const String networks = "networks";
 }
