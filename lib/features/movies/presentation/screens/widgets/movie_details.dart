@@ -111,7 +111,7 @@ class MovieDetails extends StatelessWidget {
                               children: [
                                 Text(
                                   '${state.details.originalTitle}',
-                                  maxLines: 1,
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 20,

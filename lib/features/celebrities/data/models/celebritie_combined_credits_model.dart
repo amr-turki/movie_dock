@@ -11,7 +11,6 @@ class CelebritieCombinedCreditsModel extends CelebritieCombinedCredits {
   final double popularity;
 
   final bool video;
-  final String mediaType;
   final double voteAverage;
   final int voteCount;
 
@@ -20,7 +19,7 @@ class CelebritieCombinedCreditsModel extends CelebritieCombinedCredits {
     required this.voteCount,
     required this.adult,
     required this.backdropPath,
-    required this.mediaType,
+    required super.mediaType,
     required this.originaLanguage,
     required this.originalTitle,
     required this.overView,

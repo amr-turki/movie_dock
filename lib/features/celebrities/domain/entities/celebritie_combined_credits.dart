@@ -1,5 +1,11 @@
 class CelebritieCombinedCredits {
   final String posterPath;
   final int id;
-  CelebritieCombinedCredits({required this.id, required this.posterPath});
+  final String mediaType;
+
+  CelebritieCombinedCredits({
+    required this.id,
+    required this.posterPath,
+    required this.mediaType,
+  });
 }
