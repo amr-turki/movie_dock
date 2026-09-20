@@ -17,3 +17,8 @@ class SeriesParams {
   final int seriesId;
   SeriesParams({required this.seriesId});
 }
+
+class MovieParams {
+  final int movieId;
+  MovieParams({required this.movieId});
+}

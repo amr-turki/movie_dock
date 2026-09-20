@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_dock_application/features/movies/presentation/cubit/movies_cubit.dart';
+import 'package:movie_dock_application/features/movies/presentation/cubit/movie_feed/movies_cubit.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key, required this.onTabChanged});

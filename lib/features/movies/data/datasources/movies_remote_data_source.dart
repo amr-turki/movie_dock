@@ -1,3 +1,6 @@
+import 'package:movie_dock_application/features/movies/data/models/movie_credits_model.dart';
+import 'package:movie_dock_application/features/movies/data/models/movie_details_model.dart';
+import 'package:movie_dock_application/features/movies/data/models/movie_recommendation_model.dart';
 import 'package:movie_dock_application/features/movies/data/models/movies_model.dart';
 
 import '../../../../core/databases/api/api_consumer.dart';
@@ -72,5 +75,44 @@ class MoviesRemoteDataSource {
     }
 
     return moviesList;
+  }
+
+  Future<MovieDetailsModel> getMovieDetails({
+    required MovieParams params,
+  }) async {
+    final response = await api.get(
+      "${EndPoints.MovieDetails(params.movieId.toString())}",
+    );
+    return MovieDetailsModel.fromJson(response);
+  }
+
+  Future<List<MovieRecommendationModel>> getMoviesRecommendations({
+    required MovieParams params,
+  }) async {
+    final response = await api.get(
+      "${EndPoints.MoviesRecommendation(params.movieId.toString())}",
+    );
+    List<MovieRecommendationModel> movies = [];
+    if (response[ApiKey.results] != null && response != null) {
+      for (var serie in response[ApiKey.results]) {
+        movies.add(MovieRecommendationModel.fromJson(serie));
+      }
+    }
+    return movies;
+  }
+
+  Future<List<MovieCreditsModel>> getMoviecredits({
+    required MovieParams params,
+  }) async {
+    final response = await api.get(
+      "${EndPoints.MoviesCredits(params.movieId.toString())}",
+    );
+    List<MovieCreditsModel> movies = [];
+    if (response[ApiKey.cast] != null && response != null) {
+      for (var serie in response[ApiKey.cast]) {
+        movies.add(MovieCreditsModel.fromJson(serie));
+      }
+    }
+    return movies;
   }
 }

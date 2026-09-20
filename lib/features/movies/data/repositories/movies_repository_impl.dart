@@ -4,6 +4,9 @@ import 'package:movie_dock_application/core/errors/expentions.dart';
 import 'package:movie_dock_application/core/errors/failure.dart';
 import 'package:movie_dock_application/core/params/params.dart';
 import 'package:movie_dock_application/features/movies/data/datasources/movies_remote_data_source.dart';
+import 'package:movie_dock_application/features/movies/domain/entities/movie_credit_entity.dart';
+import 'package:movie_dock_application/features/movies/domain/entities/movie_details_entity.dart';
+import 'package:movie_dock_application/features/movies/domain/entities/movie_recommendation_entity.dart';
 import 'package:movie_dock_application/features/movies/domain/entities/movies_entitiy.dart';
 import 'package:movie_dock_application/features/movies/domain/repositories/movies_repository.dart';
 
@@ -64,6 +67,53 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }) async {
     try {
       final remoteMovies = await remoteDataSource.getMoviesUpcomingList(params);
+      return Right(remoteMovies);
+    } on ServerException catch (e) {
+      return Left(Failure(errMessage: e.errorModel.statusMessage));
+    } catch (e) {
+      return Left(Failure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<MovieCreditEntity>>> getMovieCredits({
+    required MovieParams params,
+  }) async {
+    try {
+      final remoteMovies = await remoteDataSource.getMoviecredits(
+        params: params,
+      );
+      return Right(remoteMovies);
+    } on ServerException catch (e) {
+      return Left(Failure(errMessage: e.errorModel.statusMessage));
+    } catch (e) {
+      return Left(Failure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MovieDetailsEntity>> getMovieDetails({
+    required MovieParams params,
+  }) async {
+    try {
+      final remoteMovies = await remoteDataSource.getMovieDetails(
+        params: params,
+      );
+      return Right(remoteMovies);
+    } on ServerException catch (e) {
+      return Left(Failure(errMessage: e.errorModel.statusMessage));
+    } catch (e) {
+      return Left(Failure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<MovieRecommendationEntity>>>
+  getMovieRecommendations({required MovieParams params}) async {
+    try {
+      final remoteMovies = await remoteDataSource.getMoviesRecommendations(
+        params: params,
+      );
       return Right(remoteMovies);
     } on ServerException catch (e) {
       return Left(Failure(errMessage: e.errorModel.statusMessage));

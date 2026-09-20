@@ -18,7 +18,6 @@ abstract class EndPoints {
   static const String popular = 'movie/popular';
   static const String TopRated = 'movie/top_rated';
   static const String upcoming = 'movie/upcoming';
-  static String movieDetails(int id) => "movie/$id";
 
   static const String airiingToday = "tv/airing_today";
   static const String onTheAir = "tv/on_the_air";
@@ -38,6 +37,18 @@ abstract class EndPoints {
   static String SeriesRecommendations(String id) {
     String path = "tv/" + id + "/recommendations";
     return path;
+  }
+
+  static String MoviesRecommendation(String id) {
+    return "movie/" + id + "/recommendations";
+  }
+
+  static String MoviesCredits(String id) {
+    return "movie/" + id + "/credits";
+  }
+
+  static String MovieDetails(String id) {
+    return "movie/" + id;
   }
 }
 

@@ -7,7 +7,7 @@ import 'package:movie_dock_application/core/params/params.dart';
 import 'package:movie_dock_application/features/movies/data/datasources/movies_remote_data_source.dart';
 import 'package:movie_dock_application/features/movies/data/repositories/movies_repository_impl.dart';
 import 'package:movie_dock_application/features/movies/domain/usecases/get_movies.dart';
-import 'package:movie_dock_application/features/movies/presentation/cubit/movies_state.dart';
+import 'package:movie_dock_application/features/movies/presentation/cubit/movie_feed/movies_state.dart';
 
 class MoviesCubit extends Cubit<MoviesState> {
   MoviesCubit() : super(MoviesInitial());

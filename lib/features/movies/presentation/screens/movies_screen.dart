@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_dock_application/core/widgets/custom_tab_bar.dart';
-import 'package:movie_dock_application/features/movies/presentation/cubit/movies_cubit.dart';
-import 'package:movie_dock_application/features/movies/presentation/cubit/movies_state.dart';
+import 'package:movie_dock_application/features/movies/presentation/cubit/movie_feed/movies_cubit.dart';
+import 'package:movie_dock_application/features/movies/presentation/cubit/movie_feed/movies_state.dart';
 
 import 'package:movie_dock_application/features/movies/presentation/screens/widgets/custom_bottom_navigation_bar.dart';
 import 'package:movie_dock_application/features/movies/presentation/screens/widgets/movies_feed.dart';

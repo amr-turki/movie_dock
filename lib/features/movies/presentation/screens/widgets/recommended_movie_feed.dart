@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_dock_application/features/series/domain/entities/tv_series_recommendation.dart';
-import 'package:movie_dock_application/features/series/presentation/cubit/serie_detail/series_cubit.dart';
-import 'package:movie_dock_application/features/series/presentation/cubit/series_credit/serie_credit_cubit.dart';
-import 'package:movie_dock_application/features/series/presentation/cubit/series_recommendation/series_cubit.dart';
-import 'package:movie_dock_application/features/series/presentation/widgets/serie_details.dart';
+import 'package:movie_dock_application/features/movies/domain/entities/movie_recommendation_entity.dart';
+import 'package:movie_dock_application/features/movies/presentation/cubit/movie_cast/movie_credit_cubit.dart';
+import 'package:movie_dock_application/features/movies/presentation/cubit/movie_details/movie_details_cubit.dart';
+import 'package:movie_dock_application/features/movies/presentation/cubit/movie_recommendation/movie_recommendation_cubit.dart';
+import 'package:movie_dock_application/features/movies/presentation/screens/widgets/movie_details.dart';
 
-class RecommendedSeriesFeed extends StatelessWidget {
-  const RecommendedSeriesFeed({super.key, required this.Credits});
+class RecommendedMovieFeed extends StatelessWidget {
+  const RecommendedMovieFeed({super.key, required this.Credits});
 
-  final List<TvSeriesRecommendation> Credits;
+  final List<MovieRecommendationEntity> Credits;
 
   @override
   Widget build(BuildContext context) {
@@ -26,20 +26,20 @@ class RecommendedSeriesFeed extends StatelessWidget {
               Credits[index].posterPath.isNotEmpty;
           return GestureDetector(
             onTap: () {
-              BlocProvider.of<SerieDetailsCubit>(context)
-                  .eitherFailureOrSeriesDetailsCubit(id: Credits[index].id);
+              BlocProvider.of<MovieDetailsCubit>(context)
+                  .eitherFailureOrMovieCreditCubit(id: Credits[index].id);
 
-              BlocProvider.of<SerieCreditCubit>(context)
-                  .eitherFailureOrSeriesCreditCubit(id: Credits[index].id);
+              BlocProvider.of<MovieCreditCubit>(context)
+                  .eitherFailureOrMovieCredit(id: Credits[index].id);
 
-              BlocProvider.of<SeriesRecommendationCubit>(context)
-                  .eitherFailureOrSeriesRecommendation(id: Credits[index].id);
+              BlocProvider.of<MovieRecommendationCubit>(context)
+                  .eitherFailureOrMovieRecommendation(id: Credits[index].id);
 
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return SerieDetails();
+                    return MovieDetails();
                   },
                 ),
               );
