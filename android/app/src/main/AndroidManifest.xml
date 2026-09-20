@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="movie_dock_application"
+        android:label="Movie Dock"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
