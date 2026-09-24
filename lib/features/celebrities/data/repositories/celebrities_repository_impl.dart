@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:movie_dock_application/core/databases/cache/hive_service.dart';
+import 'package:movie_dock_application/features/celebrities/data/datasources/celebrities_local_data_source.dart';
 import 'package:movie_dock_application/features/celebrities/domain/entities/celebritie_combined_credits.dart';
 import 'package:movie_dock_application/features/celebrities/domain/entities/celebritie_details.dart';
 
@@ -14,9 +15,11 @@ import '../datasources/celebrities_remote_data_source.dart';
 class CelebritiesRepositoryImpl extends CelebritiesRepository {
   final NetworkInfo networkInfo;
   final CelebritiesRemoteDataSource remoteDataSource;
+  final CelebritiesLocalDataSource localDataSource;
   CelebritiesRepositoryImpl({
     required this.remoteDataSource,
     required this.networkInfo,
+    required this.localDataSource,
   });
   @override
   Future<Either<Failure, List<CelebritiesEntity>>> getPopularCelebrities({
@@ -27,13 +30,13 @@ class CelebritiesRepositoryImpl extends CelebritiesRepository {
         final remoteCelebrities = await remoteDataSource.getPopularCelebrities(
           params,
         );
-        await HiveService.cachePopularCelebrities(remoteCelebrities);
+        await localDataSource.cachePopularCelebrities(remoteCelebrities);
         return Right(remoteCelebrities);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
       }
     } else {
-      final localCelebrities = HiveService.getCachedPopularCelebrities();
+      final localCelebrities = localDataSource.getCachedPopularCelebrities();
       if (localCelebrities.isNotEmpty) {
         return Right(localCelebrities);
       } else {
@@ -50,13 +53,13 @@ class CelebritiesRepositoryImpl extends CelebritiesRepository {
       try {
         final remoteCelebrities = await remoteDataSource
             .getTrendingCelebrities();
-        await HiveService.cacheTrendingCelebrities(remoteCelebrities);
+        await localDataSource.cacheTrendingCelebrities(remoteCelebrities);
         return Right(remoteCelebrities);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
       }
     } else {
-      final localCelebrities = HiveService.getCachedTrendingCelebrities();
+      final localCelebrities = localDataSource.getCachedTrendingCelebrities();
       if (localCelebrities.isNotEmpty) {
         return Right(localCelebrities);
       } else {
@@ -76,13 +79,14 @@ class CelebritiesRepositoryImpl extends CelebritiesRepository {
       try {
         final remoteCelebrities =
             await remoteDataSource.GetCelebritieCombinedCredits(id: params.id);
-        await HiveService.cacheCelebritieCombinedCredits(remoteCelebrities);
+        await localDataSource.cacheCelebritieCombinedCredits(remoteCelebrities);
         return Right(remoteCelebrities);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
       }
     } else {
-      final localCelebrities = HiveService.getCachedCelebritieCombinedCredits();
+      final localCelebrities = localDataSource
+          .getCachedCelebritieCombinedCredits();
       if (localCelebrities.isNotEmpty) {
         return Right(localCelebrities);
       } else {
@@ -102,13 +106,15 @@ class CelebritiesRepositoryImpl extends CelebritiesRepository {
         final remoteCelebrities = await remoteDataSource.GetCelebritieDetails(
           id: params.id,
         );
-        await HiveService.cacheCelebritieDetails(remoteCelebrities);
+        await localDataSource.cacheCelebritieDetails(remoteCelebrities);
         return Right(remoteCelebrities);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
       }
     } else {
-      final localCelebrity = HiveService.getCachedCelebritieDetails(params.id);
+      final localCelebrity = localDataSource.getCachedCelebritieDetails(
+        params.id,
+      );
       if (localCelebrity != null) {
         return Right(localCelebrity);
       } else {

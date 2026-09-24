@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_dock_application/core/connection/network_info.dart';
 import 'package:movie_dock_application/core/databases/api/dio_consumer.dart';
+import 'package:movie_dock_application/features/celebrities/data/datasources/celebrities_local_data_source.dart';
 import 'package:movie_dock_application/features/celebrities/data/datasources/celebrities_remote_data_source.dart';
 import 'package:movie_dock_application/features/celebrities/data/repositories/celebrities_repository_impl.dart';
 import 'package:movie_dock_application/features/celebrities/domain/usecases/get_trending_celebrities.dart';
@@ -15,6 +16,8 @@ class TrendingCelebritiesCubit extends Cubit<TrendingCelebritiesState> {
     emit(TrendingCelebritiesLoading());
     final TrendingCelebritiesInitial = await GetTrendingCelebritiesUseCase(
       repository: CelebritiesRepositoryImpl(
+        localDataSource: CelebritiesLocalDataSourceImpl(),
+
         remoteDataSource: CelebritiesRemoteDataSource(
           api: DioConsumer(dio: Dio()),
         ),
