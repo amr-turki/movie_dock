@@ -1,14 +1,40 @@
+import 'package:hive/hive.dart';
 import 'package:movie_dock_application/core/databases/api/end_points.dart';
 
 import '../../domain/entities/celebrities_entitiy.dart';
+part 'popular_celebrities_model.g.dart';
 
+@HiveType(typeId: 2)
 class PopularCelebritiesModel extends CelebritiesEntity {
+  @HiveField(0)
   final bool adult;
+
+  @HiveField(1)
   final int gender;
+
+  @HiveField(2)
   final String knownForDepartment;
+
+  @HiveField(3)
   final String name;
+
+  @HiveField(4)
   final double popularity;
+
+  @HiveField(5)
   final List<dynamic> knownFor;
+
+  @HiveField(6)
+  @override
+  final String? profilePath;
+
+  @HiveField(7)
+  @override
+  final String originalName;
+
+  @HiveField(8)
+  @override
+  final int id;
 
   PopularCelebritiesModel({
     required this.adult,
@@ -17,10 +43,10 @@ class PopularCelebritiesModel extends CelebritiesEntity {
     required this.knownForDepartment,
     required this.name,
     required this.popularity,
-    required super.profilePath,
-    required super.originalName,
-    required super.id,
-  });
+    required this.profilePath,
+    required this.originalName,
+    required this.id,
+  }) : super(profilePath: profilePath, originalName: originalName, id: id);
 
   factory PopularCelebritiesModel.fromJson(Map<String, dynamic> json) {
     return PopularCelebritiesModel(

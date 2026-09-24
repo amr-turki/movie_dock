@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_dock_application/core/databases/cache/hive_service.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/celebritiedetails/celebritie_details_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/combinedcredits/combined_credits_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular/popular_celebrities_cubit.dart';
@@ -14,7 +15,10 @@ import 'package:movie_dock_application/features/series/presentation/cubit/series
 import 'package:movie_dock_application/features/series/presentation/cubit/series_feed/series_cubit.dart';
 import 'package:movie_dock_application/features/series/presentation/cubit/series_recommendation/series_cubit.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await HiveService.init();
   runApp(MovieDockApplication());
 }
 

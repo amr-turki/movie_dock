@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:movie_dock_application/core/databases/cache/hive_service.dart';
 import 'package:movie_dock_application/features/celebrities/domain/entities/celebritie_combined_credits.dart';
 import 'package:movie_dock_application/features/celebrities/domain/entities/celebritie_details.dart';
 
@@ -26,12 +27,20 @@ class CelebritiesRepositoryImpl extends CelebritiesRepository {
         final remoteCelebrities = await remoteDataSource.getPopularCelebrities(
           params,
         );
+        await HiveService.cachePopularCelebrities(remoteCelebrities);
         return Right(remoteCelebrities);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      final localCelebrities = HiveService.getCachedPopularCelebrities();
+      if (localCelebrities.isNotEmpty) {
+        return Right(localCelebrities);
+      } else {
+        return Left(
+          Failure(errMessage: "No Internet Connection & No Cached Data"),
+        );
+      }
     }
   }
 
@@ -41,12 +50,20 @@ class CelebritiesRepositoryImpl extends CelebritiesRepository {
       try {
         final remoteCelebrities = await remoteDataSource
             .getTrendingCelebrities();
+        await HiveService.cacheTrendingCelebrities(remoteCelebrities);
         return Right(remoteCelebrities);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      final localCelebrities = HiveService.getCachedTrendingCelebrities();
+      if (localCelebrities.isNotEmpty) {
+        return Right(localCelebrities);
+      } else {
+        return Left(
+          Failure(errMessage: "No Internet Connection & No Cached Data"),
+        );
+      }
     }
   }
 
@@ -59,12 +76,20 @@ class CelebritiesRepositoryImpl extends CelebritiesRepository {
       try {
         final remoteCelebrities =
             await remoteDataSource.GetCelebritieCombinedCredits(id: params.id);
+        await HiveService.cacheCelebritieCombinedCredits(remoteCelebrities);
         return Right(remoteCelebrities);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      final localCelebrities = HiveService.getCachedCelebritieCombinedCredits();
+      if (localCelebrities.isNotEmpty) {
+        return Right(localCelebrities);
+      } else {
+        return Left(
+          Failure(errMessage: "No Internet Connection & No Cached Data"),
+        );
+      }
     }
   }
 
@@ -77,12 +102,20 @@ class CelebritiesRepositoryImpl extends CelebritiesRepository {
         final remoteCelebrities = await remoteDataSource.GetCelebritieDetails(
           id: params.id,
         );
+        await HiveService.cacheCelebritieDetails(remoteCelebrities);
         return Right(remoteCelebrities);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      final localCelebrity = HiveService.getCachedCelebritieDetails(params.id);
+      if (localCelebrity != null) {
+        return Right(localCelebrity);
+      } else {
+        return Left(
+          Failure(errMessage: "No Internet Connection & No Cached Data"),
+        );
+      }
     }
   }
 }

@@ -65,6 +65,7 @@ class CelebritieDetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                           child: hasProfile
                               ? CachedNetworkImage(
+                                  cacheKey: state.CelebritieDetails.profilePath,
                                   imageUrl:
                                       'https://image.tmdb.org/t/p/w342${state.CelebritieDetails.profilePath}',
                                   fit: BoxFit.cover,

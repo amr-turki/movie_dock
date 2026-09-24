@@ -48,6 +48,8 @@ class CelebritiesFeed extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                   child: hasProfile
                       ? CachedNetworkImage(
+                          cacheKey: actor.profilePath,
+
                           imageUrl:
                               'https://image.tmdb.org/t/p/w342${actor.profilePath}',
                           fit: BoxFit.cover,

@@ -39,15 +39,19 @@ dependencies:
   data_connection_checker_tv: ^0.3.5-nullsafety
   dartz: ^0.10.1
   flutter_bloc: ^9.1.1
-  cached_network_image: ^4.0.0
+  cached_network_image: ^4.0.2
   readmore_flutter: ^1.1.3
   read_more_text: ^0.0.5
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
   flutter_lints: ^6.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.13
 
 flutter_launcher_icons:
   android: "ic_launcher"
