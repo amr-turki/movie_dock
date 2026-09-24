@@ -4,6 +4,7 @@ import 'package:movie_dock_application/core/databases/cache/hive_service.dart';
 import 'package:movie_dock_application/core/errors/expentions.dart';
 import 'package:movie_dock_application/core/errors/failure.dart';
 import 'package:movie_dock_application/core/params/params.dart';
+import 'package:movie_dock_application/features/movies/data/datasources/movies_local_data_source.dart';
 import 'package:movie_dock_application/features/movies/data/datasources/movies_remote_data_source.dart';
 import 'package:movie_dock_application/features/movies/domain/entities/movie_credit_entity.dart';
 import 'package:movie_dock_application/features/movies/domain/entities/movie_details_entity.dart';
@@ -13,9 +14,11 @@ import 'package:movie_dock_application/features/movies/domain/repositories/movie
 
 class MoviesRepositoryImpl extends MoviesRepository {
   final NetworkInfo networkInfo;
+  final MoviesLocalDataSource localDataSource;
   final MoviesRemoteDataSource remoteDataSource;
 
   MoviesRepositoryImpl({
+    required this.localDataSource,
     required this.remoteDataSource,
     required this.networkInfo,
   });
@@ -27,7 +30,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
     if (await networkInfo.isConnected!) {
       try {
         final remoteMovies = await remoteDataSource.getMoviesNowPlaying(params);
-        await HiveService.cacheNowPlayingMovies(remoteMovies);
+        await localDataSource.cacheNowPlayingMovies(remoteMovies);
         return Right(remoteMovies);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -36,7 +39,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
       }
     } else {
       try {
-        final localMovies = HiveService.getCachedNowPlayingMovies();
+        final localMovies = localDataSource.getCachedNowPlayingMovies();
         return Right(localMovies);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
@@ -53,7 +56,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
         final remoteMovies = await remoteDataSource.getMoviesPopularList(
           params,
         );
-        await HiveService.cachePopularMovies(remoteMovies);
+        await localDataSource.cachePopularMovies(remoteMovies);
         return Right(remoteMovies);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -62,7 +65,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
       }
     } else {
       try {
-        final localMovies = HiveService.getCachedPopularMovies();
+        final localMovies = localDataSource.getCachedPopularMovies();
         return Right(localMovies);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
@@ -77,7 +80,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
     if (await networkInfo.isConnected!) {
       try {
         final remoteMovies = await remoteDataSource.getMoviesTopRated(params);
-        await HiveService.cacheTopRatedMovies(remoteMovies);
+        await localDataSource.cacheTopRatedMovies(remoteMovies);
         return Right(remoteMovies);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -86,7 +89,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
       }
     } else {
       try {
-        final localMovies = HiveService.getCachedTopRatedMovies();
+        final localMovies = localDataSource.getCachedTopRatedMovies();
         return Right(localMovies);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
@@ -103,7 +106,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
         final remoteMovies = await remoteDataSource.getMoviesUpcomingList(
           params,
         );
-        await HiveService.cacheUpcomingMovies(remoteMovies);
+        await localDataSource.cacheUpcomingMovies(remoteMovies);
         return Right(remoteMovies);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -112,7 +115,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
       }
     } else {
       try {
-        final localMovies = HiveService.getCachedUpcomingMovies();
+        final localMovies = localDataSource.getCachedUpcomingMovies();
         return Right(localMovies);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
@@ -129,7 +132,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
         final remoteCredits = await remoteDataSource.getMoviecredits(
           params: params,
         );
-        await HiveService.cacheMovieCredits(remoteCredits);
+        await localDataSource.cacheMovieCredits(remoteCredits);
         return Right(remoteCredits);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -138,7 +141,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
       }
     } else {
       try {
-        final localCredits = HiveService.getCachedMovieCredits();
+        final localCredits = localDataSource.getCachedMovieCredits();
         return Right(localCredits);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
@@ -155,7 +158,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
         final remoteDetails = await remoteDataSource.getMovieDetails(
           params: params,
         );
-        await HiveService.cacheMovieDetails(remoteDetails);
+        await localDataSource.cacheMovieDetails(remoteDetails);
         return Right(remoteDetails);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -164,7 +167,9 @@ class MoviesRepositoryImpl extends MoviesRepository {
       }
     } else {
       try {
-        final localDetails = HiveService.getCachedMovieDetails(params.movieId);
+        final localDetails = localDataSource.getCachedMovieDetails(
+          params.movieId,
+        );
         if (localDetails != null) {
           return Right(localDetails);
         }
@@ -182,7 +187,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
       try {
         final remoteRecommendations = await remoteDataSource
             .getMoviesRecommendations(params: params);
-        await HiveService.cacheMovieRecommendations(
+        await localDataSource.cacheMovieRecommendations(
           params.movieId,
           remoteRecommendations,
         );
@@ -194,8 +199,8 @@ class MoviesRepositoryImpl extends MoviesRepository {
       }
     } else {
       try {
-        final localRecommendations =
-            HiveService.getCachedMovieRecommendations();
+        final localRecommendations = localDataSource
+            .getCachedMovieRecommendations();
         return Right(localRecommendations);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
