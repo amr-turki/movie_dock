@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:movie_dock_application/core/databases/cache/hive_service.dart';
 import 'package:movie_dock_application/core/params/params.dart';
 import 'package:movie_dock_application/features/celebrities/domain/entities/celebrities_entitiy.dart';
+import 'package:movie_dock_application/features/series/data/datasources/series_local_data_source.dart';
 import 'package:movie_dock_application/features/series/data/datasources/series_remote_data_source.dart';
 import 'package:movie_dock_application/features/series/domain/entities/tv_series_credits.dart';
 import 'package:movie_dock_application/features/series/domain/entities/tv_series_details_entity.dart';
@@ -16,8 +17,10 @@ import '../../../../core/errors/failure.dart';
 class SeriesRepositoryImpl extends SeriesRepository {
   final NetworkInfo networkInfo;
   final SeriesRemoteDataSource remoteDataSource;
+  final SeriesLocalDataSource localDataSource;
   SeriesRepositoryImpl({
     required this.remoteDataSource,
+    required this.localDataSource,
     required this.networkInfo,
   });
 
@@ -35,7 +38,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
       }
     } else {
       try {
-        final localSeries = HiveService.getCachedAiringTodaySeries();
+        final localSeries = localDataSource.getCachedAiringTodaySeries();
         return Right(localSeries);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
@@ -48,7 +51,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
     if (await networkInfo.isConnected!) {
       try {
         final remoteSeries = await remoteDataSource.getSeriesOnTheAir();
-        await HiveService.cacheOnTheAirSeries(remoteSeries);
+        await localDataSource.cacheOnTheAirSeries(remoteSeries);
         return Right(remoteSeries);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -57,7 +60,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
       }
     } else {
       try {
-        final localSeries = HiveService.getCachedOnTheAirSeries();
+        final localSeries = localDataSource.getCachedOnTheAirSeries();
         return Right(localSeries);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
@@ -70,7 +73,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
     if (await networkInfo.isConnected!) {
       try {
         final remoteSeries = await remoteDataSource.getSeriesPopular();
-        await HiveService.cachePopularSeries(remoteSeries);
+        await localDataSource.cachePopularSeries(remoteSeries);
         return Right(remoteSeries);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -79,7 +82,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
       }
     } else {
       try {
-        final localSeries = HiveService.getCachedPopularSeries();
+        final localSeries = localDataSource.getCachedPopularSeries();
         return Right(localSeries);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
@@ -92,7 +95,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
     if (await networkInfo.isConnected!) {
       try {
         final remoteSeries = await remoteDataSource.getSeriesTopRated();
-        await HiveService.cacheTopRatedSeries(remoteSeries);
+        await localDataSource.cacheTopRatedSeries(remoteSeries);
         return Right(remoteSeries);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -101,7 +104,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
       }
     } else {
       try {
-        final localSeries = HiveService.getCachedTopRatedSeries();
+        final localSeries = localDataSource.getCachedTopRatedSeries();
         return Right(localSeries);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
@@ -116,7 +119,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
     if (await networkInfo.isConnected!) {
       try {
         final credits = await remoteDataSource.getSeriecredits(params: params);
-        await HiveService.cacheSerieCredits(credits);
+        await localDataSource.cacheSerieCredits(credits);
         return Right(credits);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -125,7 +128,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
       }
     } else {
       try {
-        final localCredits = HiveService.getCachedSerieCredits();
+        final localCredits = localDataSource.getCachedSerieCredits();
         return Right(localCredits);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
@@ -142,7 +145,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
         final serieDetails = await remoteDataSource.getSerieDetails(
           params: params,
         );
-        await HiveService.cacheSerieDetails(serieDetails);
+        await localDataSource.cacheSerieDetails(serieDetails);
         return Right(serieDetails);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -151,7 +154,9 @@ class SeriesRepositoryImpl extends SeriesRepository {
       }
     } else {
       try {
-        final localDetails = HiveService.getCachedSerieDetails(params.seriesId);
+        final localDetails = localDataSource.getCachedSerieDetails(
+          params.seriesId,
+        );
         if (localDetails != null) {
           return Right(localDetails);
         }
@@ -170,7 +175,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
         final series = await remoteDataSource.getSeriesRecommendations(
           params: params,
         );
-        await HiveService.cacheSerieRecommendations(series);
+        await localDataSource.cacheSerieRecommendations(series);
         return Right(series);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
@@ -179,7 +184,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
       }
     } else {
       try {
-        final localSeries = HiveService.getCachedSerieRecommendations();
+        final localSeries = localDataSource.getCachedSerieRecommendations();
         return Right(localSeries);
       } catch (e) {
         return Left(Failure(errMessage: e.toString()));
