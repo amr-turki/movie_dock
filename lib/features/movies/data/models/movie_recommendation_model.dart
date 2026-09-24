@@ -1,19 +1,52 @@
+import 'package:hive/hive.dart';
 import 'package:movie_dock_application/core/databases/api/end_points.dart';
 import 'package:movie_dock_application/features/movies/domain/entities/movie_recommendation_entity.dart';
 
+part 'movie_recommendation_model.g.dart';
+
+@HiveType(typeId: 5)
 class MovieRecommendationModel extends MovieRecommendationEntity {
+  @HiveField(0)
+  @override
+  final int id;
+
+  @HiveField(1)
+  @override
+  final String posterPath;
+
+  @HiveField(2)
   final bool adult;
+
+  @HiveField(3)
   final String backDropPath;
+
+  @HiveField(4)
   final String title;
+
+  @HiveField(5)
   final String originalLanguage;
+
+  @HiveField(6)
   final String originalTitle;
+
+  @HiveField(7)
   final String overview;
+
+  @HiveField(8)
   final String mediaType;
+
+  @HiveField(9)
   final double popularity;
+
+  @HiveField(10)
   final double voteAverage;
+
+  @HiveField(11)
   final double voteCount;
+
   MovieRecommendationModel({
-    required super.id,
+    required this.id,
+    required this.posterPath,
     required this.adult,
     required this.backDropPath,
     required this.title,
@@ -24,8 +57,7 @@ class MovieRecommendationModel extends MovieRecommendationEntity {
     required this.popularity,
     required this.voteAverage,
     required this.voteCount,
-    required super.posterPath,
-  });
+  }) : super(id: id, posterPath: posterPath);
 
   factory MovieRecommendationModel.fromJson(Map<String, dynamic> json) {
     return MovieRecommendationModel(
@@ -34,7 +66,7 @@ class MovieRecommendationModel extends MovieRecommendationEntity {
       backDropPath: json[ApiKey.backdropPath] ?? '',
       title: json[ApiKey.title] ?? '',
       originalLanguage: json[ApiKey.originalLanguage] ?? '',
-      originalTitle: json[ApiKey.originalName] ?? '',
+      originalTitle: json[ApiKey.originalTitle] ?? '',
       overview: json[ApiKey.overview] ?? '',
       posterPath: json[ApiKey.posterPath] ?? '',
       mediaType: json[ApiKey.mediaType] ?? '',

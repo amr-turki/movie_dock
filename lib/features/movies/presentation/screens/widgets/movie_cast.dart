@@ -51,6 +51,7 @@ class CastSMovie extends StatelessWidget {
                         height: 180,
                         child: hasProfile
                             ? CachedNetworkImage(
+                                cacheKey: Credits[index].profilePath,
                                 imageUrl:
                                     'https://image.tmdb.org/t/p/w342${Credits[index].profilePath}',
 

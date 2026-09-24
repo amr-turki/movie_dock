@@ -68,6 +68,7 @@ class MovieDetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                           child: hasProfile
                               ? CachedNetworkImage(
+                                  cacheKey: state.details.posterPath,
                                   imageUrl:
                                       'https://image.tmdb.org/t/p/w342${state.details.posterPath}',
                                   fit: BoxFit.cover,

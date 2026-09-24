@@ -50,6 +50,7 @@ class RecommendedMovieFeed extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 child: hasProfile
                     ? CachedNetworkImage(
+                        cacheKey: Credits[index].posterPath,
                         imageUrl:
                             'https://image.tmdb.org/t/p/w342${Credits[index].posterPath}',
 
