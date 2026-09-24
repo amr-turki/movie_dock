@@ -68,6 +68,7 @@ class SerieDetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                           child: hasProfile
                               ? CachedNetworkImage(
+                                  cacheKey: state.serie.posterPath,
                                   imageUrl:
                                       'https://image.tmdb.org/t/p/w342${state.serie.posterPath}',
                                   fit: BoxFit.cover,

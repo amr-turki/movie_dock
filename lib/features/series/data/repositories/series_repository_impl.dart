@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:movie_dock_application/core/databases/cache/hive_service.dart';
 import 'package:movie_dock_application/core/params/params.dart';
 import 'package:movie_dock_application/features/celebrities/domain/entities/celebrities_entitiy.dart';
 import 'package:movie_dock_application/features/series/data/datasources/series_remote_data_source.dart';
@@ -24,13 +25,21 @@ class SeriesRepositoryImpl extends SeriesRepository {
   Future<Either<Failure, List<TvsSeriesEntity>>> getSeriesAiringToday() async {
     if (await networkInfo.isConnected!) {
       try {
-        final remoteMovies = await remoteDataSource.getSeriesAiringToday();
-        return Right(remoteMovies);
+        final remoteSeries = await remoteDataSource.getSeriesAiringToday();
+        await HiveService.cacheAiringTodaySeries(remoteSeries);
+        return Right(remoteSeries);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      try {
+        final localSeries = HiveService.getCachedAiringTodaySeries();
+        return Right(localSeries);
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
+      }
     }
   }
 
@@ -38,13 +47,21 @@ class SeriesRepositoryImpl extends SeriesRepository {
   Future<Either<Failure, List<TvsSeriesEntity>>> getSeriesOnTheAir() async {
     if (await networkInfo.isConnected!) {
       try {
-        final remoteMovies = await remoteDataSource.getSeriesOnTheAir();
-        return Right(remoteMovies);
+        final remoteSeries = await remoteDataSource.getSeriesOnTheAir();
+        await HiveService.cacheOnTheAirSeries(remoteSeries);
+        return Right(remoteSeries);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      try {
+        final localSeries = HiveService.getCachedOnTheAirSeries();
+        return Right(localSeries);
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
+      }
     }
   }
 
@@ -52,13 +69,21 @@ class SeriesRepositoryImpl extends SeriesRepository {
   Future<Either<Failure, List<TvsSeriesEntity>>> getSeriesPopular() async {
     if (await networkInfo.isConnected!) {
       try {
-        final remoteMovies = await remoteDataSource.getSeriesPopular();
-        return Right(remoteMovies);
+        final remoteSeries = await remoteDataSource.getSeriesPopular();
+        await HiveService.cachePopularSeries(remoteSeries);
+        return Right(remoteSeries);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      try {
+        final localSeries = HiveService.getCachedPopularSeries();
+        return Right(localSeries);
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
+      }
     }
   }
 
@@ -66,13 +91,21 @@ class SeriesRepositoryImpl extends SeriesRepository {
   Future<Either<Failure, List<TvsSeriesEntity>>> getSeriesTopRated() async {
     if (await networkInfo.isConnected!) {
       try {
-        final remoteMovies = await remoteDataSource.getSeriesTopRated();
-        return Right(remoteMovies);
+        final remoteSeries = await remoteDataSource.getSeriesTopRated();
+        await HiveService.cacheTopRatedSeries(remoteSeries);
+        return Right(remoteSeries);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      try {
+        final localSeries = HiveService.getCachedTopRatedSeries();
+        return Right(localSeries);
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
+      }
     }
   }
 
@@ -83,12 +116,20 @@ class SeriesRepositoryImpl extends SeriesRepository {
     if (await networkInfo.isConnected!) {
       try {
         final credits = await remoteDataSource.getSeriecredits(params: params);
+        await HiveService.cacheSerieCredits(credits);
         return Right(credits);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      try {
+        final localCredits = HiveService.getCachedSerieCredits();
+        return Right(localCredits);
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
+      }
     }
   }
 
@@ -98,15 +139,26 @@ class SeriesRepositoryImpl extends SeriesRepository {
   }) async {
     if (await networkInfo.isConnected!) {
       try {
-        final serieDetials = await remoteDataSource.getSerieDetails(
+        final serieDetails = await remoteDataSource.getSerieDetails(
           params: params,
         );
-        return Right(serieDetials);
+        await HiveService.cacheSerieDetails(serieDetails);
+        return Right(serieDetails);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      try {
+        final localDetails = HiveService.getCachedSerieDetails(params.seriesId);
+        if (localDetails != null) {
+          return Right(localDetails);
+        }
+        return Left(Failure(errMessage: "No local data found"));
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
+      }
     }
   }
 
@@ -118,12 +170,20 @@ class SeriesRepositoryImpl extends SeriesRepository {
         final series = await remoteDataSource.getSeriesRecommendations(
           params: params,
         );
+        await HiveService.cacheSerieRecommendations(series);
         return Right(series);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.statusMessage));
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
       }
     } else {
-      return Left(Failure(errMessage: "No Internet Connection"));
+      try {
+        final localSeries = HiveService.getCachedSerieRecommendations();
+        return Right(localSeries);
+      } catch (e) {
+        return Left(Failure(errMessage: e.toString()));
+      }
     }
   }
 }

@@ -7,6 +7,10 @@ import 'package:movie_dock_application/features/movies/data/models/movie_credits
 import 'package:movie_dock_application/features/movies/data/models/movie_details_model.dart';
 import 'package:movie_dock_application/features/movies/data/models/movie_recommendation_model.dart';
 import 'package:movie_dock_application/features/movies/data/models/movies_model.dart';
+import 'package:movie_dock_application/features/series/data/models/serie_details_model.dart';
+import 'package:movie_dock_application/features/series/data/models/series_model.dart';
+import 'package:movie_dock_application/features/series/data/models/tv_series_credits_model.dart';
+import 'package:movie_dock_application/features/series/data/models/tv_series_recommendation_model.dart';
 
 class HiveService {
   static const String popularCelebritiesBox = 'popular_celebrities_box';
@@ -23,6 +27,14 @@ class HiveService {
   static const String movieRecommendationsBox = 'movie_recommendations_box';
   static const String movieCreditsBox = 'movie_credits_box';
 
+  static const String airingTodaySeriesBox = 'airing_today_series_box';
+  static const String onTheAirSeriesBox = 'on_the_air_series_box';
+  static const String popularSeriesBox = 'popular_series_box';
+  static const String topRatedSeriesBox = 'top_rated_series_box';
+  static const String serieDetailsBox = 'serie_details_box';
+  static const String serieRecommendationsBox = 'serie_recommendations_box';
+  static const String serieCreditsBox = 'serie_credits_box';
+
   static Future<void> init() async {
     await Hive.initFlutter();
 
@@ -35,6 +47,11 @@ class HiveService {
     Hive.registerAdapter(MovieDetailsModelAdapter());
     Hive.registerAdapter(MovieRecommendationModelAdapter());
     Hive.registerAdapter(MoviesModelAdapter());
+
+    Hive.registerAdapter(SerieDetailsModelAdapter());
+    Hive.registerAdapter(SeriesModelAdapter());
+    Hive.registerAdapter(TvSeriesCreditsModelAdapter());
+    Hive.registerAdapter(TvSeriesRecommendationModelAdapter());
 
     await Hive.openBox<PopularCelebritiesModel>(popularCelebritiesBox);
     await Hive.openBox<TrendingCelebritiesModel>(trendingCelebritiesBox);
@@ -50,6 +67,14 @@ class HiveService {
     await Hive.openBox<MovieDetailsModel>(movieDetailsBox);
     await Hive.openBox<MovieRecommendationModel>(movieRecommendationsBox);
     await Hive.openBox<MovieCreditsModel>(movieCreditsBox);
+
+    await Hive.openBox<SeriesModel>(airingTodaySeriesBox);
+    await Hive.openBox<SeriesModel>(onTheAirSeriesBox);
+    await Hive.openBox<SeriesModel>(popularSeriesBox);
+    await Hive.openBox<SeriesModel>(topRatedSeriesBox);
+    await Hive.openBox<SerieDetailsModel>(serieDetailsBox);
+    await Hive.openBox<TvSeriesRecommendationModel>(serieRecommendationsBox);
+    await Hive.openBox<TvSeriesCreditsModel>(serieCreditsBox);
   }
 
   static Future<void> cachePopularCelebrities(
@@ -183,6 +208,84 @@ class HiveService {
 
   static List<MovieCreditsModel> getCachedMovieCredits() {
     final box = Hive.box<MovieCreditsModel>(movieCreditsBox);
+    return box.values.toList();
+  }
+
+  static Future<void> cacheAiringTodaySeries(List<SeriesModel> list) async {
+    final box = Hive.box<SeriesModel>(airingTodaySeriesBox);
+    await box.clear();
+    await box.addAll(list);
+  }
+
+  static List<SeriesModel> getCachedAiringTodaySeries() {
+    final box = Hive.box<SeriesModel>(airingTodaySeriesBox);
+    return box.values.toList();
+  }
+
+  static Future<void> cacheOnTheAirSeries(List<SeriesModel> list) async {
+    final box = Hive.box<SeriesModel>(onTheAirSeriesBox);
+    await box.clear();
+    await box.addAll(list);
+  }
+
+  static List<SeriesModel> getCachedOnTheAirSeries() {
+    final box = Hive.box<SeriesModel>(onTheAirSeriesBox);
+    return box.values.toList();
+  }
+
+  static Future<void> cachePopularSeries(List<SeriesModel> list) async {
+    final box = Hive.box<SeriesModel>(popularSeriesBox);
+    await box.clear();
+    await box.addAll(list);
+  }
+
+  static List<SeriesModel> getCachedPopularSeries() {
+    final box = Hive.box<SeriesModel>(popularSeriesBox);
+    return box.values.toList();
+  }
+
+  static Future<void> cacheTopRatedSeries(List<SeriesModel> list) async {
+    final box = Hive.box<SeriesModel>(topRatedSeriesBox);
+    await box.clear();
+    await box.addAll(list);
+  }
+
+  static List<SeriesModel> getCachedTopRatedSeries() {
+    final box = Hive.box<SeriesModel>(topRatedSeriesBox);
+    return box.values.toList();
+  }
+
+  static Future<void> cacheSerieDetails(SerieDetailsModel details) async {
+    final box = Hive.box<SerieDetailsModel>(serieDetailsBox);
+    await box.put(details.id, details);
+  }
+
+  static SerieDetailsModel? getCachedSerieDetails(int id) {
+    final box = Hive.box<SerieDetailsModel>(serieDetailsBox);
+    return box.get(id);
+  }
+
+  static Future<void> cacheSerieRecommendations(
+    List<TvSeriesRecommendationModel> list,
+  ) async {
+    final box = Hive.box<TvSeriesRecommendationModel>(serieRecommendationsBox);
+    await box.clear();
+    await box.addAll(list);
+  }
+
+  static List<TvSeriesRecommendationModel> getCachedSerieRecommendations() {
+    final box = Hive.box<TvSeriesRecommendationModel>(serieRecommendationsBox);
+    return box.values.toList();
+  }
+
+  static Future<void> cacheSerieCredits(List<TvSeriesCreditsModel> list) async {
+    final box = Hive.box<TvSeriesCreditsModel>(serieCreditsBox);
+    await box.clear();
+    await box.addAll(list);
+  }
+
+  static List<TvSeriesCreditsModel> getCachedSerieCredits() {
+    final box = Hive.box<TvSeriesCreditsModel>(serieCreditsBox);
     return box.values.toList();
   }
 }
