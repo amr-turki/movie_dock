@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_dock_application/core/utils/custom_cache_manager.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/celebritiedetails/celebritie_details_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/combinedcredits/combined_credits_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/widgets/celebritie_details.dart';
@@ -20,9 +21,6 @@ class CastSMovie extends StatelessWidget {
         itemCount: Credits.length,
 
         itemBuilder: (context, index) {
-          bool hasProfile =
-              Credits[index].profilePath != null &&
-              Credits[index].profilePath.isNotEmpty;
           return GestureDetector(
             onTap: () {
               BlocProvider.of<CelebritieDetailsCubit>(context)
@@ -49,43 +47,31 @@ class CastSMovie extends StatelessWidget {
                       child: SizedBox(
                         width: 120,
                         height: 180,
-                        child: hasProfile
-                            ? CachedNetworkImage(
-                                cacheKey: Credits[index].profilePath,
-                                imageUrl:
-                                    'https://image.tmdb.org/t/p/w342${Credits[index].profilePath}',
+                        child: CachedNetworkImage(
+                          cacheManager: CustomImageCacheManager.instance,
+                          cacheKey: Credits[index].profilePath,
+                          imageUrl:
+                              'https://image.tmdb.org/t/p/w342${Credits[index].profilePath}',
 
-                                fit: BoxFit.cover,
-                                height: 100,
-                                width: 120,
-                                placeholder: (context, url) => Container(
-                                  color: Colors.grey[200],
-                                  child: const Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) => Container(
-                                  width: double.infinity,
-                                  color: Colors.grey[200],
-                                  child: const Icon(
-                                    Icons.person,
-                                    size: 50,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                width: double.infinity,
-
-                                color: Colors.grey[200],
-                                child: const Icon(
-                                  Icons.person,
-                                  size: 120,
-                                  color: Colors.grey,
-                                ),
-                              ),
+                          fit: BoxFit.cover,
+                          height: 100,
+                          width: 120,
+                          placeholder: (context, url) => Container(
+                            color: Colors.grey[200],
+                            child: const Center(
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            width: double.infinity,
+                            color: Colors.grey[200],
+                            child: const Icon(
+                              Icons.person,
+                              size: 50,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_dock_application/core/utils/custom_cache_manager.dart';
 import 'package:movie_dock_application/features/series/presentation/cubit/serie_detail/series_cubit.dart';
 import 'package:movie_dock_application/features/series/presentation/cubit/serie_detail/series_state.dart';
 import 'package:movie_dock_application/features/series/presentation/cubit/series_credit/serie_credit_cubit.dart';
@@ -25,10 +26,6 @@ class SerieDetails extends StatelessWidget {
           } else if (state is GetSerieDetailsFailure) {
             return Center(child: Text(state.errMessage));
           } else if (state is GetSerieDetailsSuccessfully) {
-            bool hasProfile =
-                state.serie.posterPath != null &&
-                state.serie.posterPath!.isNotEmpty;
-
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: SingleChildScrollView(
@@ -66,43 +63,32 @@ class SerieDetails extends StatelessWidget {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(16),
-                          child: hasProfile
-                              ? CachedNetworkImage(
-                                  cacheKey: state.serie.posterPath,
-                                  imageUrl:
-                                      'https://image.tmdb.org/t/p/w342${state.serie.posterPath}',
-                                  fit: BoxFit.cover,
-                                  width: 125,
-                                  height: 170,
-                                  placeholder: (context, url) => Container(
-                                    color: Colors.grey[200],
-                                    child: const Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      ),
-                                    ),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Container(
-                                        width: double.infinity,
-                                        color: Colors.grey[200],
-                                        child: const Icon(
-                                          Icons.person,
-                                          size: 50,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                )
-                              : Container(
-                                  width: double.infinity,
-
-                                  color: Colors.grey[200],
-                                  child: const Icon(
-                                    Icons.person,
-                                    size: 120,
-                                    color: Colors.grey,
-                                  ),
+                          child: CachedNetworkImage(
+                            cacheManager: CustomImageCacheManager.instance,
+                            cacheKey: state.serie.posterPath,
+                            imageUrl:
+                                'https://image.tmdb.org/t/p/w342${state.serie.posterPath}',
+                            fit: BoxFit.cover,
+                            width: 125,
+                            height: 170,
+                            placeholder: (context, url) => Container(
+                              color: Colors.grey[200],
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
                                 ),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              width: double.infinity,
+                              color: Colors.grey[200],
+                              child: const Icon(
+                                Icons.person,
+                                size: 50,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
                         ),
                         Expanded(
                           child: Padding(

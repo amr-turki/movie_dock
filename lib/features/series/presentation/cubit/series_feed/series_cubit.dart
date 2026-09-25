@@ -1,7 +1,5 @@
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_dock_application/core/connection/network_info.dart';
 import 'package:movie_dock_application/core/databases/api/dio_consumer.dart';
 import 'package:movie_dock_application/features/series/data/datasources/series_local_data_source.dart';
 import 'package:movie_dock_application/features/series/data/datasources/series_remote_data_source.dart';
@@ -20,7 +18,6 @@ class SeriesCubit extends Cubit<SeriesState> {
         localDataSource: SeriesLocalDataSourceImpl(),
 
         remoteDataSource: SeriesRemoteDataSource(api: DioConsumer(dio: Dio())),
-        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
     ).getSeriesAiringToday();
 
@@ -38,7 +35,6 @@ class SeriesCubit extends Cubit<SeriesState> {
         localDataSource: SeriesLocalDataSourceImpl(),
 
         remoteDataSource: SeriesRemoteDataSource(api: DioConsumer(dio: Dio())),
-        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
     ).getSeriesOnTheAir();
 
@@ -56,7 +52,6 @@ class SeriesCubit extends Cubit<SeriesState> {
         localDataSource: SeriesLocalDataSourceImpl(),
 
         remoteDataSource: SeriesRemoteDataSource(api: DioConsumer(dio: Dio())),
-        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
     ).getSeriesPopular();
 
@@ -74,7 +69,6 @@ class SeriesCubit extends Cubit<SeriesState> {
         localDataSource: SeriesLocalDataSourceImpl(),
 
         remoteDataSource: SeriesRemoteDataSource(api: DioConsumer(dio: Dio())),
-        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
     ).getSeriesTopRated();
 

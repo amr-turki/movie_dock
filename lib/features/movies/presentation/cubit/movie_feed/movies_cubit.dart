@@ -1,7 +1,5 @@
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_dock_application/core/connection/network_info.dart';
 import 'package:movie_dock_application/core/databases/api/dio_consumer.dart';
 import 'package:movie_dock_application/core/params/params.dart';
 import 'package:movie_dock_application/features/movies/data/datasources/movies_local_data_source.dart';
@@ -21,7 +19,6 @@ class MoviesCubit extends Cubit<MoviesState> {
         localDataSource: MoviesLocalDataSourceImpl(),
 
         remoteDataSource: MoviesRemoteDataSource(api: DioConsumer(dio: Dio())),
-        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
     ).NowPlaying(params: MoviesParams(page: 1));
 
@@ -39,7 +36,6 @@ class MoviesCubit extends Cubit<MoviesState> {
         localDataSource: MoviesLocalDataSourceImpl(),
 
         remoteDataSource: MoviesRemoteDataSource(api: DioConsumer(dio: Dio())),
-        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
     ).PopularList(params: MoviesParams(page: 1));
 
@@ -57,7 +53,6 @@ class MoviesCubit extends Cubit<MoviesState> {
         localDataSource: MoviesLocalDataSourceImpl(),
 
         remoteDataSource: MoviesRemoteDataSource(api: DioConsumer(dio: Dio())),
-        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
     ).TopRated(params: MoviesParams(page: 1));
 
@@ -75,10 +70,8 @@ class MoviesCubit extends Cubit<MoviesState> {
         localDataSource: MoviesLocalDataSourceImpl(),
 
         remoteDataSource: MoviesRemoteDataSource(api: DioConsumer(dio: Dio())),
-        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
     ).UpcomingList(params: MoviesParams(page: 1));
-
     failureOrMovies.fold(
       (failure) => emit(GetMoviesFailure(errMessage: failure.errMessage)),
       (movies) => emit(GetMoviesSuccessfully(movies: movies)),

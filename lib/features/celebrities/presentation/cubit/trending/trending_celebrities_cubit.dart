@@ -1,7 +1,5 @@
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_dock_application/core/connection/network_info.dart';
 import 'package:movie_dock_application/core/databases/api/dio_consumer.dart';
 import 'package:movie_dock_application/features/celebrities/data/datasources/celebrities_local_data_source.dart';
 import 'package:movie_dock_application/features/celebrities/data/datasources/celebrities_remote_data_source.dart';
@@ -21,7 +19,6 @@ class TrendingCelebritiesCubit extends Cubit<TrendingCelebritiesState> {
         remoteDataSource: CelebritiesRemoteDataSource(
           api: DioConsumer(dio: Dio()),
         ),
-        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
     ).call();
 

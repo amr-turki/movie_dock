@@ -1,7 +1,5 @@
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_dock_application/core/connection/network_info.dart';
 import 'package:movie_dock_application/core/databases/api/dio_consumer.dart';
 import 'package:movie_dock_application/core/params/params.dart';
 import 'package:movie_dock_application/features/celebrities/data/datasources/celebrities_local_data_source.dart';
@@ -22,7 +20,6 @@ class CombinedCreditsCubit extends Cubit<CombinedCreditsState> {
         remoteDataSource: CelebritiesRemoteDataSource(
           api: DioConsumer(dio: Dio()),
         ),
-        networkInfo: NetworkInfoImpl(DataConnectionChecker()),
       ),
     ).call(params: CelebritieDetailsParams(id: id));
 

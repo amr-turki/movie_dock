@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_dock_application/core/utils/custom_cache_manager.dart';
 import 'package:movie_dock_application/features/celebrities/domain/entities/celebritie_combined_credits.dart';
 import 'package:movie_dock_application/features/movies/presentation/cubit/movie_cast/movie_credit_cubit.dart';
 import 'package:movie_dock_application/features/movies/presentation/cubit/movie_details/movie_details_cubit.dart';
@@ -25,9 +26,6 @@ class MoviesTvShowCelebritie extends StatelessWidget {
         itemCount: CombinedCredits.length,
 
         itemBuilder: (context, index) {
-          bool hasProfile =
-              CombinedCredits[index].posterPath != null &&
-              CombinedCredits[index].posterPath.isNotEmpty;
           return GestureDetector(
             onTap: () {
               if (CombinedCredits[index].mediaType == "movie") {
@@ -81,40 +79,31 @@ class MoviesTvShowCelebritie extends StatelessWidget {
               padding: const EdgeInsets.only(right: 12.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: hasProfile
-                    ? CachedNetworkImage(
-                        imageUrl:
-                            'https://image.tmdb.org/t/p/w342${CombinedCredits[index].posterPath}',
+                child: CachedNetworkImage(
+                  cacheKey: CombinedCredits[index].posterPath,
+                  cacheManager: CustomImageCacheManager.instance,
+                  imageUrl:
+                      'https://image.tmdb.org/t/p/w342${CombinedCredits[index].posterPath}',
 
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 120,
-                        placeholder: (context, url) => Container(
-                          color: Colors.grey[200],
-                          child: const Center(
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => Container(
-                          width: double.infinity,
-                          color: Colors.grey[200],
-                          child: const Icon(
-                            Icons.person,
-                            size: 50,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      )
-                    : Container(
-                        width: double.infinity,
-
-                        color: Colors.grey[200],
-                        child: const Icon(
-                          Icons.person,
-                          size: 120,
-                          color: Colors.grey,
-                        ),
-                      ),
+                  fit: BoxFit.cover,
+                  height: 100,
+                  width: 120,
+                  placeholder: (context, url) => Container(
+                    color: Colors.grey[200],
+                    child: const Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    child: const Icon(
+                      Icons.person,
+                      size: 50,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
               ),
             ),
           );
