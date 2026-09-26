@@ -50,6 +50,8 @@ abstract class EndPoints {
   static String MovieDetails(String id) {
     return "movie/" + id;
   }
+
+  static const String search = "search/multi";
 }
 
 abstract class ApiKey {
@@ -140,4 +142,6 @@ abstract class ApiKey {
   static const String showId = "show_id";
 
   static const String networks = "networks";
+
+  static const String query = 'query';
 }

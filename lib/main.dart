@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_dock_application/core/databases/cache/hive_service.dart';
+import 'package:movie_dock_application/core/search/presentation/cubit/search_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/celebritiedetails/celebritie_details_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/combinedcredits/combined_credits_cubit.dart';
 import 'package:movie_dock_application/features/celebrities/presentation/cubit/popular/popular_celebrities_cubit.dart';
@@ -46,6 +47,7 @@ class MovieDockApplication extends StatelessWidget {
         BlocProvider(create: (context) => MovieCreditCubit()),
 
         BlocProvider(create: (context) => MovieDetailsCubit()),
+        BlocProvider(create: (context) => SearchCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
